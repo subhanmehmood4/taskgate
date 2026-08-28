@@ -1,0 +1,2 @@
+When last names collide, also sort by first name A-Z.
+Hidden tests check the Chen tie. Last name alone is not enough.

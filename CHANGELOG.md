@@ -31,10 +31,22 @@ Primary metric is **verdict accuracy** on the same 12 packs and the same gold la
 | 11-timestamp-fold (challenge) | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | 12-reskin-rollup | reject / similarity | no | no | no | no | no | ✓ |
 
+## Hold-out (written after the gates)
+
+These three packs were authored after iteration 4 froze. They are scored only by `python3 -m taskgate eval --holdout`. They are **not** part of the 12/12 fixture.
+
+| Pack | Gold | Final | Note |
+|---|---|---|---|
+| 13-sensor-already-green | reject / too_easy | ✓ | Same family as pack `03`, new surface. Runner still sees it. |
+| 14-tiebreak-in-notes | reject / unfair | no | First-name tie-break lives in `notes.txt`. Fairness only hunts UTC/Z. Honest miss. |
+| 15-window-peak | submit | ✓ | New mechanic. NOP red, oracle green, no leak. |
+
+Hold-out verdict: **2/3**. The miss is the one we wanted: a hidden requirement the current fairness skill does not name.
+
 ## Evaluation notes
 
-- Ten or more cases: **12**.
-- One challenging case: `11-timestamp-fold` (fair, easy to get wrong as a solver; the reviewer must still submit). The challenging review is `12-reskin-rollup`.
+- Ten or more cases: **12** on the fixture, plus **3** hold-out.
+- One challenging case: `11-timestamp-fold` (fair, easy to get wrong as a solver; the reviewer must still submit). The challenging review on the fixture is `12-reskin-rollup`. The hold-out challenge is `14-tiebreak-in-notes`.
 - Secondary: family accuracy tracks verdict on this suite because each reject pack has one planted primary family. Pack `02` also flags `similarity` (it is a leaked reskin of pack `01`); the primary family `leak` still matches gold.
 - Human time / cost: see README. Suite runtime is about 7 seconds on a laptop. Cost is $0.
 

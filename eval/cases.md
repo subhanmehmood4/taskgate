@@ -16,3 +16,13 @@ All original. Gold is in `labels.json`.
 | 10-answer-filename | reject / leak | `THE_TOTAL_MUST_BE_128.txt`. |
 | 11-timestamp-fold | submit (challenge) | Last write by timestamp, not file order. |
 | 12-reskin-rollup | reject / similarity | Customer totals — reskin of pack 01. |
+
+## Hold-out (written after the gates)
+
+Gold is in `holdout_labels.json`. Not part of the 12/12 fixture.
+
+| Id | Gold | Planted issue |
+|---|---|---|
+| 13-sensor-already-green | reject / too_easy | Starter already returns per-sensor means. |
+| 14-tiebreak-in-notes | reject / unfair | First-name tie-break lives only in `notes.txt`. Fairness does not see it. |
+| 15-window-peak | submit | Sliding-window max. Fair, original mechanic. |

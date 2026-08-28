@@ -24,7 +24,7 @@ The cost is not one rejected zip. It is a day of revision for a failure that a 3
 |---|---|
 | Who has this problem? | Task authors and small eval teams who submit Harbor-style packs. |
 | What bottleneck makes it worth solving? | Instruction-only self-review cannot see NOP, oracle, leaks outside the prompt, or pool similarity. |
-| Does the agent solve it well? | On 12 synthetic packs with planted defects, verdict accuracy moves from **5/12 (42%)** to **12/12 (100%)**. |
+| Does the agent solve it well? | On 12 synthetic packs with planted defects, verdict accuracy moves from **5/12 (42%)** to **12/12 (100%)**. On 3 packs written after the gates froze, it is **2/3**. |
 | Can another person reproduce the result? | Yes. Python 3.11+, no API keys, no extra packages. See [REPRODUCE.md](REPRODUCE.md). |
 
 ## What this is not
@@ -94,6 +94,7 @@ Primary metric: **verdict accuracy** (submit vs reject vs gold).
 | Iteration 3 | unfair + impl-detail | 92% (11/12) | 92% |
 | Iteration 4 | reviewer memory | 100% (12/12) | 100% |
 | Final | + citation verifier | **100% (12/12)** | 100% |
+| Hold-out | 3 packs written after the gates froze | **67% (2/3)** | 67% |
 
 Full changelog: [CHANGELOG.md](CHANGELOG.md). Per-pack matrix: [results/matrix.md](results/matrix.md). Raw JSON: [results/](results/).
 
@@ -101,11 +102,13 @@ Full changelog: [CHANGELOG.md](CHANGELOG.md). Per-pack matrix: [results/matrix.m
 
 **Cost per pack:** $0. No model API.
 
-Gold labels were assigned from the planted defect in each pack, not from a third-party ranking. This is a fixture: it shows that instruction-only review cannot see NOP, oracle, hidden comments, or pool memory. It is not a claim that Taskgate generalizes to an unseen platform corpus.
+Gold labels were assigned from the planted defect in each pack, not from a third-party ranking. The 12-pack suite is a fixture: it shows that instruction-only review cannot see NOP, oracle, hidden comments, or pool memory. It is not a claim that Taskgate generalizes to an unseen platform corpus.
+
+The hold-out is the honesty check. Packs `13`–`15` were written after the gates froze. The agent catches the new NOP-green pack and correctly submits the new fair pack. It **misses** `14-tiebreak-in-notes`: the hidden rule is a first-name sort tie-break, and the fairness scanner only knows UTC/Z leftovers. That miss is the generalization limit.
 
 ### Challenging case
 
-`11-timestamp-fold` looks like a trap (file order ≠ event order) but `TASK.md` states the rule. Gold is **submit**. The agent submits. The hard *review* case is `12-reskin-rollup`: NOP red, oracle green, no leak — only memory rejects it.
+`11-timestamp-fold` looks like a trap (file order ≠ event order) but `TASK.md` states the rule. Gold is **submit**. The agent submits. The hard *review* case on the fixture is `12-reskin-rollup`: NOP red, oracle green, no leak — only memory rejects it. The hard *hold-out* case is `14-tiebreak-in-notes`.
 
 ## Pack format (EvalPack v1)
 
@@ -124,12 +127,13 @@ Gold labels live only in [`eval/labels.json`](eval/labels.json). The agent never
 ## Quick start
 
 ```bash
-cd taskgate
+cd taskgate   # or: cd "Micro 1 challenge"
 export PYTHONPATH="$PWD"
 python3 -m taskgate list
 python3 -m taskgate baseline packs/03-nop-already-green
 python3 -m taskgate review packs/03-nop-already-green
 python3 -m taskgate eval --stage all
+python3 -m taskgate eval --holdout
 ```
 
 Requires Python 3.11+. Stdlib only.

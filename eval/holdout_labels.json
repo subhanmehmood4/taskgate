@@ -1,0 +1,20 @@
+{
+  "13-sensor-already-green": {
+    "verdict": "reject",
+    "families": ["too_easy"],
+    "title": "Starter already computes per-sensor means",
+    "challenge": false
+  },
+  "14-tiebreak-in-notes": {
+    "verdict": "reject",
+    "families": ["unfair"],
+    "title": "First-name tie-break lives only in notes.txt",
+    "challenge": true
+  },
+  "15-window-peak": {
+    "verdict": "submit",
+    "families": [],
+    "title": "Sliding-window peak, fair and original",
+    "challenge": false
+  }
+}

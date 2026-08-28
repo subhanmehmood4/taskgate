@@ -28,7 +28,7 @@ Python must be 3.11 or newer.
 python3 -m taskgate list
 ```
 
-Expected: 12 pack ids, `01-hours-rollup` through `12-reskin-rollup`.
+Expected: 15 pack ids. `01`–`12` are the scored fixture. `13`–`15` are the hold-out (labels in `eval/holdout_labels.json`, not in `eval/labels.json`).
 
 ## 3. Baseline (one pack)
 
@@ -66,10 +66,28 @@ final                   verdict 100% (12/12)  family 100%
 
 This overwrites `results/*.json` and `trajectories/*__<stage>.md`. The copies already in those folders should match these percentages.
 
+## 5b. Hold-out (written after the gates)
+
+```bash
+python3 -m taskgate eval --holdout
+```
+
+Expected:
+
+```
+holdout/final       verdict 67%  (2/3)  family 67%
+  ok    13-sensor-already-green       gold=reject pred=reject
+  MISS  14-tiebreak-in-notes          gold=reject pred=submit
+  ok    15-window-peak                gold=submit pred=submit
+```
+
+Do not “fix” the agent so hold-out becomes 3/3. The miss is the point.
+
 ## 6. Data the run needs
 
-- `packs/` — 12 synthetic fixtures written for this repo
-- `eval/labels.json` — gold verdicts (`review` does not read this)
+- `packs/` — 12 fixture packs plus 3 hold-out packs, all written for this repo
+- `eval/labels.json` — gold verdicts for packs `01`–`12` (`review` does not read this)
+- `eval/holdout_labels.json` — gold verdicts for packs `13`–`15`
 - `taskgate/memory/mechanics.yml` — reviewer memory
 - `taskgate/skills/eval_task_review.md` — the written skill
 
@@ -79,7 +97,8 @@ No network. No secrets. No Docker.
 
 - `results/summary.json` has `final.verdict_accuracy` = `1.0`
 - `results/final.json` has 12 rows, all `verdict_ok: true`
-- A trajectory exists for every pack and stage under `trajectories/`
+- `results/holdout.json` has `metrics.verdict_correct` = `2`
+- A trajectory exists for every fixture pack and stage under `trajectories/`
 
 ## 8. One pack that should stay SUBMIT
 
@@ -95,4 +114,5 @@ Expected: **SUBMIT**. This is the challenging fair pack. Do not “improve” th
 |---|---|
 | `No module named taskgate` | `export PYTHONPATH="$PWD"` from the repo root |
 | Verdicts drift from 12/12 | A pack, gold label, or `mechanics.yml` was edited |
+| Hold-out becomes 3/3 | The fairness gate was widened after the hold-out was written; revert that |
 | Oracle shows 0/1 on a known-good pack | `oracle/apply.py` must run with cwd = pack root (the runner does this) |
