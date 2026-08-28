@@ -4,7 +4,7 @@ Pre-submit reviewer for Harbor-style LLM evaluation task packs.
 
 A task author is about to upload a coding-agent benchmark. Taskgate reads the pack, runs the official oracle and the do-nothing baseline, and returns a **submit / reject** review a person can sign.
 
-Public copy: [github.com/subhanmehmood4/taskgate](https://github.com/subhanmehmood4/taskgate).
+This repository is the micro1 Agentic Workflows Hackathon submission. Public copy: [github.com/subhanmehmood4/taskgate](https://github.com/subhanmehmood4/taskgate).
 
 ## Who has this problem?
 
@@ -17,6 +17,15 @@ I do this work. Packs come back for the same few reasons: the starter already pa
 A README and a green local demo do not tell you whether a pack will survive review. The evidence is split across `TASK.md`, hidden tests, the oracle, leftover files, and what the pool has already seen. Reading the instruction alone is how most authors self-review. That is also how most bad packs get uploaded.
 
 The cost is not one rejected zip. It is a day of revision for a failure that a 30-second gate could have named.
+
+## Four questions
+
+| | |
+|---|---|
+| Who has this problem? | Task authors and small eval teams who submit Harbor-style packs. |
+| What bottleneck makes it worth solving? | Instruction-only self-review cannot see NOP, oracle, leaks outside the prompt, or pool similarity. |
+| Does the agent solve it well? | On 12 synthetic packs with planted defects, verdict accuracy moves from **5/12 (42%)** to **12/12 (100%)**. |
+| Can another person reproduce the result? | Yes. Python 3.11+, no API keys, no extra packages. See [REPRODUCE.md](REPRODUCE.md). |
 
 ## What this is not
 
@@ -62,6 +71,42 @@ TASK.md + workspace + tests + oracle
    SUBMIT / REJECT report  ──► human decides
 ```
 
+## Fair baseline
+
+Same 12 packs, same gold labels.
+
+**Baseline resources:** `TASK.md` only. A keyword check for “expected … is \<number\>”. No tests, no oracle, no file tree.
+
+**Agent resources:** the full pack, the skill, the tools, reviewer memory, the verifier.
+
+That difference is the product. Authors already have the instruction. They do not already run this gate.
+
+## Measured improvement
+
+Primary metric: **verdict accuracy** (submit vs reject vs gold).
+
+| Stage | What changed | Verdict | Family |
+|---|---|---:|---:|
+| Baseline | `TASK.md` only | 42% (5/12) | 42% |
+| Removed experiment | filenames + `TASK.md`, still no tests | 50% (6/12) | 50% |
+| Iteration 1 | leak scan | 50% (6/12) | 50% |
+| Iteration 2 | NOP + oracle runner | **75% (9/12)** | 75% |
+| Iteration 3 | unfair + impl-detail | 92% (11/12) | 92% |
+| Iteration 4 | reviewer memory | 100% (12/12) | 100% |
+| Final | + citation verifier | **100% (12/12)** | 100% |
+
+Full changelog: [CHANGELOG.md](CHANGELOG.md). Per-pack matrix: [results/matrix.md](results/matrix.md). Raw JSON: [results/](results/).
+
+**Human time per pack (estimate):** about 90s to read `TASK.md` and guess, vs about 4s for Taskgate plus about 30s to read a reject report. Not a timed user study.
+
+**Cost per pack:** $0. No model API.
+
+Gold labels were assigned from the planted defect in each pack, not from a third-party ranking. This is a fixture: it shows that instruction-only review cannot see NOP, oracle, hidden comments, or pool memory. It is not a claim that Taskgate generalizes to an unseen platform corpus.
+
+### Challenging case
+
+`11-timestamp-fold` looks like a trap (file order ≠ event order) but `TASK.md` states the rule. Gold is **submit**. The agent submits. The hard *review* case is `12-reskin-rollup`: NOP red, oracle green, no leak — only memory rejects it.
+
 ## Pack format (EvalPack v1)
 
 Original format. Not a copy of any platform schema.
@@ -89,6 +134,25 @@ python3 -m taskgate eval --stage all
 
 Requires Python 3.11+. Stdlib only.
 
+## Deliverables
+
+| Item | Where |
+|---|---|
+| Solution + changelog | this repo + [CHANGELOG.md](CHANGELOG.md) |
+| Reproduction guide | [REPRODUCE.md](REPRODUCE.md) |
+| Agent trajectories | [trajectories/](trajectories/) |
+| Hot take | below, and the last section of the changelog |
+
+## What existed before this hackathon
+
+Nothing in this repository. The rejection families come from public Harbor-style practice and from evaluation work I have written about on [subhanmehmood.com/evaluation](https://subhanmehmood.com/evaluation). No private platform pack is included.
+
+## Hot take
+
+Doing nothing is a valid agent strategy. If NOP is already green, you did not write a benchmark — you wrote a compliment.
+
+The second lesson is about fluency. A reject reason that cannot point at a file is worse than a silent pass. Verification here is not a second model. It is the rule that a claim without a path is dropped.
+
 ## License
 
-The code and the synthetic packs are original work for this submission. Use them under the terms in [LICENSE](LICENSE).
+The code and the 12 synthetic packs are original work for this submission. Use them under the terms in [LICENSE](LICENSE).

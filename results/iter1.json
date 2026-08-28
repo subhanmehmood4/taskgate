@@ -1,0 +1,632 @@
+{
+  "stage": "iter1",
+  "metrics": {
+    "n": 12,
+    "verdict_correct": 6,
+    "verdict_accuracy": 0.5,
+    "family_correct": 6,
+    "family_accuracy": 0.5
+  },
+  "rows": [
+    {
+      "pack_id": "01-hours-rollup",
+      "title": "Sum hours per project from a CSV",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "01-hours-rollup",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "01-hours-rollup",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/hours.csv\nworkspace/rollup.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "01-hours-rollup",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Hours rollup"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "02-leak-in-instruction",
+      "title": "Same rollup, answer printed in TASK.md",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "leak"
+      ],
+      "pred_verdict": "reject",
+      "pred_families": [
+        "leak"
+      ],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "02-leak-in-instruction",
+        "stage": "iter1",
+        "verdict": "reject",
+        "families": [
+          "leak"
+        ],
+        "findings": [
+          {
+            "family": "leak",
+            "summary": "TASK.md contains test expected value '8'.",
+            "path": "TASK.md",
+            "snippet": "Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.",
+            "line": 5,
+            "kept": true,
+            "drop_reason": null
+          }
+        ],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "02-leak-in-instruction",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/hours.csv\nworkspace/rollup.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "02-leak-in-instruction",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "1 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Hours rollup (leaked)"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "03-nop-already-green",
+      "title": "Starter already passes every hidden test",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "too_easy"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "03-nop-already-green",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "03-nop-already-green",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/adder.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "03-nop-already-green",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Add two numbers"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "04-oracle-broken",
+      "title": "Official oracle does not make tests green",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "oracle_fail"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "04-oracle-broken",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "04-oracle-broken",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/ops.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "04-oracle-broken",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Multiply? No \u2014 add."
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "05-unfair-hidden-comment",
+      "title": "UTC-Z requirement lives only in a leftover file",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "unfair"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "05-unfair-hidden-comment",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "05-unfair-hidden-comment",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/legacy.txt\nworkspace/parse.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "05-unfair-hidden-comment",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Timestamp parse"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "06-restore-discount",
+      "title": "Restore a deleted discount rule from a backup log",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "06-restore-discount",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "06-restore-discount",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/app.py\nworkspace/backup.log"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "06-restore-discount",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Restore discount"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "07-impl-detail-tests",
+      "title": "Tests lock a private name instead of behavior",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "impl_detail"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "07-impl-detail-tests",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "07-impl-detail-tests",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/stats.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "07-impl-detail-tests",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Average"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "08-partial-oracle",
+      "title": "Oracle fixes tax rate but not rounding",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "incomplete_oracle"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "08-partial-oracle",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "08-partial-oracle",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/invoice.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "08-partial-oracle",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Invoice total"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "09-unsigned-token",
+      "title": "Reject unsigned tokens in a tiny JWT verifier",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "09-unsigned-token",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "09-unsigned-token",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/auth.py\nworkspace/config.json"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "09-unsigned-token",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Unsigned tokens"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "10-answer-filename",
+      "title": "Expected total leaked through a filename",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "leak"
+      ],
+      "pred_verdict": "reject",
+      "pred_families": [
+        "leak"
+      ],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "10-answer-filename",
+        "stage": "iter1",
+        "verdict": "reject",
+        "families": [
+          "leak"
+        ],
+        "findings": [
+          {
+            "family": "leak",
+            "summary": "Workspace filename leaks expected value '128'.",
+            "path": "workspace/THE_TOTAL_MUST_BE_128.txt",
+            "snippet": "THE_TOTAL_MUST_BE_128.txt",
+            "line": null,
+            "kept": true,
+            "drop_reason": null
+          }
+        ],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "10-answer-filename",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/THE_TOTAL_MUST_BE_128.txt\nworkspace/numbers.txt\nworkspace/summing.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "10-answer-filename",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "1 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Sum the file"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "11-timestamp-fold",
+      "title": "Fold ledger events in timestamp order, not file order",
+      "challenge": true,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "11-timestamp-fold",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "11-timestamp-fold",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/events.log\nworkspace/fold.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "11-timestamp-fold",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Timestamp fold"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "12-reskin-rollup",
+      "title": "Customer totals \u2014 a reskin of hours-rollup",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "similarity"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "12-reskin-rollup",
+        "stage": "iter1",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "skill.eval_task_review",
+            "input": "taskgate/skills/eval_task_review.md",
+            "output": "# Eval task review skill\n\nYou are a pre-submit reviewer for Harbor-style coding-agent evaluation packs.\n\nA pack is SUBMIT only if every statement below is true:\n\n1. TASK.md does not contain expected outputs, flags, or numeric answers that hidden tests check.\n2. Filenames do not advertise the answer.\n3. NOP (run tests on the starter, change nothing) is red.\n4. Oracle (apply the official fix, then run tests) is green.\n5. TASK.md states every requirement the tests enforce. Comments and leftover files do not count.\n6. Tests assert observable behavior, not function names or private attributes.\n7. The solving mechanic is not a reskin of a pack already in reviewer memory.\n\nIf any statement is false, REJECT and name the family:\nleak | too_easy | oracle_fail | incomplete_oracle | unfair | impl_detail | similarity | malformed\n\nEvery claim must cite a path and a snippet. If you cannot point at a fi"
+          },
+          {
+            "tool": "inspector.list_files",
+            "input": "12-reskin-rollup",
+            "output": "TASK.md\noracle/apply.py\ntests/test_task.py\nworkspace/orders.csv\nworkspace/rollup.py"
+          },
+          {
+            "tool": "inspector.structure",
+            "input": "12-reskin-rollup",
+            "output": "ok"
+          },
+          {
+            "tool": "leak.scan",
+            "input": "TASK.md + filenames vs test literals",
+            "output": "0 finding(s)"
+          }
+        ],
+        "notes": [
+          "skill: eval_task_review.md",
+          "# Customer totals"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    }
+  ]
+}

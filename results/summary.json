@@ -1,0 +1,51 @@
+{
+  "baseline": {
+    "n": 12,
+    "verdict_correct": 5,
+    "verdict_accuracy": 0.4166666666666667,
+    "family_correct": 5,
+    "family_accuracy": 0.4166666666666667
+  },
+  "removed_context_only": {
+    "n": 12,
+    "verdict_correct": 6,
+    "verdict_accuracy": 0.5,
+    "family_correct": 6,
+    "family_accuracy": 0.5
+  },
+  "iter1": {
+    "n": 12,
+    "verdict_correct": 6,
+    "verdict_accuracy": 0.5,
+    "family_correct": 6,
+    "family_accuracy": 0.5
+  },
+  "iter2": {
+    "n": 12,
+    "verdict_correct": 9,
+    "verdict_accuracy": 0.75,
+    "family_correct": 9,
+    "family_accuracy": 0.75
+  },
+  "iter3": {
+    "n": 12,
+    "verdict_correct": 11,
+    "verdict_accuracy": 0.9166666666666666,
+    "family_correct": 11,
+    "family_accuracy": 0.9166666666666666
+  },
+  "iter4": {
+    "n": 12,
+    "verdict_correct": 12,
+    "verdict_accuracy": 1.0,
+    "family_correct": 12,
+    "family_accuracy": 1.0
+  },
+  "final": {
+    "n": 12,
+    "verdict_correct": 12,
+    "verdict_accuracy": 1.0,
+    "family_correct": 12,
+    "family_accuracy": 1.0
+  }
+}

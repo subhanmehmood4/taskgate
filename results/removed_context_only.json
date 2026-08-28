@@ -1,0 +1,500 @@
+{
+  "stage": "removed_context_only",
+  "metrics": {
+    "n": 12,
+    "verdict_correct": 6,
+    "verdict_accuracy": 0.5,
+    "family_correct": 6,
+    "family_accuracy": 0.5
+  },
+  "rows": [
+    {
+      "pack_id": "01-hours-rollup",
+      "title": "Sum hours per project from a CSV",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "01-hours-rollup",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "01-hours-rollup",
+            "output": "TASK.md, rollup.py, hours.csv, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "53 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "02-leak-in-instruction",
+      "title": "Same rollup, answer printed in TASK.md",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "leak"
+      ],
+      "pred_verdict": "reject",
+      "pred_families": [
+        "leak"
+      ],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "02-leak-in-instruction",
+        "stage": "removed_context_only",
+        "verdict": "reject",
+        "families": [
+          "leak"
+        ],
+        "findings": [
+          {
+            "family": "leak",
+            "summary": "Instruction appears to contain an expected answer.",
+            "path": "TASK.md",
+            "snippet": "Expected alpha total is 8.0.",
+            "line": null,
+            "kept": true,
+            "drop_reason": null
+          }
+        ],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "02-leak-in-instruction",
+            "output": "TASK.md, rollup.py, hours.csv, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "40 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "03-nop-already-green",
+      "title": "Starter already passes every hidden test",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "too_easy"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "03-nop-already-green",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "03-nop-already-green",
+            "output": "TASK.md, adder.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "17 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "04-oracle-broken",
+      "title": "Official oracle does not make tests green",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "oracle_fail"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "04-oracle-broken",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "04-oracle-broken",
+            "output": "TASK.md, ops.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "19 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "05-unfair-hidden-comment",
+      "title": "UTC-Z requirement lives only in a leftover file",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "unfair"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "05-unfair-hidden-comment",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "05-unfair-hidden-comment",
+            "output": "TASK.md, legacy.txt, parse.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "29 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "06-restore-discount",
+      "title": "Restore a deleted discount rule from a backup log",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "06-restore-discount",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "06-restore-discount",
+            "output": "TASK.md, app.py, backup.log, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "46 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "07-impl-detail-tests",
+      "title": "Tests lock a private name instead of behavior",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "impl_detail"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "07-impl-detail-tests",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "07-impl-detail-tests",
+            "output": "TASK.md, stats.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "23 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "08-partial-oracle",
+      "title": "Oracle fixes tax rate but not rounding",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "incomplete_oracle"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "08-partial-oracle",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "08-partial-oracle",
+            "output": "TASK.md, invoice.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "39 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "09-unsigned-token",
+      "title": "Reject unsigned tokens in a tiny JWT verifier",
+      "challenge": false,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "09-unsigned-token",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "09-unsigned-token",
+            "output": "TASK.md, auth.py, config.json, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "37 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "10-answer-filename",
+      "title": "Expected total leaked through a filename",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "leak"
+      ],
+      "pred_verdict": "reject",
+      "pred_families": [
+        "leak"
+      ],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "10-answer-filename",
+        "stage": "removed_context_only",
+        "verdict": "reject",
+        "families": [
+          "leak"
+        ],
+        "findings": [
+          {
+            "family": "leak",
+            "summary": "Filename looks like an answer file: THE_TOTAL_MUST_BE_128.txt",
+            "path": "THE_TOTAL_MUST_BE_128.txt",
+            "snippet": "THE_TOTAL_MUST_BE_128.txt",
+            "line": null,
+            "kept": true,
+            "drop_reason": null
+          }
+        ],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "10-answer-filename",
+            "output": "TASK.md, THE_TOTAL_MUST_BE_128.txt, summing.py, numbers.txt, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "29 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "11-timestamp-fold",
+      "title": "Fold ledger events in timestamp order, not file order",
+      "challenge": true,
+      "gold_verdict": "submit",
+      "gold_families": [],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": true,
+      "family_ok": true,
+      "review": {
+        "pack_id": "11-timestamp-fold",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "11-timestamp-fold",
+            "output": "TASK.md, events.log, fold.py, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "48 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    },
+    {
+      "pack_id": "12-reskin-rollup",
+      "title": "Customer totals \u2014 a reskin of hours-rollup",
+      "challenge": false,
+      "gold_verdict": "reject",
+      "gold_families": [
+        "similarity"
+      ],
+      "pred_verdict": "submit",
+      "pred_families": [],
+      "verdict_ok": false,
+      "family_ok": false,
+      "review": {
+        "pack_id": "12-reskin-rollup",
+        "stage": "removed_context_only",
+        "verdict": "submit",
+        "families": [],
+        "findings": [],
+        "events": [
+          {
+            "tool": "removed_context_only.list_names",
+            "input": "12-reskin-rollup",
+            "output": "TASK.md, rollup.py, orders.csv, apply.py, test_task.py"
+          },
+          {
+            "tool": "removed_context_only.read_task",
+            "input": "TASK.md",
+            "output": "45 words"
+          }
+        ],
+        "notes": [
+          "filenames + TASK.md, no runtime"
+        ],
+        "nop_passed": null,
+        "nop_failed": null,
+        "oracle_passed": null,
+        "oracle_failed": null
+      }
+    }
+  ]
+}
