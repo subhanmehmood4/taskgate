@@ -1,0 +1,10 @@
+# Rejection families (reviewer memory)
+
+- leak: expected values in TASK.md or answer-shaped filenames
+- too_easy: NOP is already green
+- oracle_fail: official fix does not pass hidden tests
+- incomplete_oracle: oracle fixes some tests, not all
+- unfair: a test requirement lives in a leftover file or comment
+- impl_detail: tests lock names or private attributes
+- similarity: solving mechanic already in the pool
+- malformed: missing TASK.md, workspace, tests, or oracle

@@ -1,0 +1,74 @@
+{
+  "01-hours-rollup": {
+    "verdict": "submit",
+    "families": [],
+    "title": "Sum hours per project from a CSV",
+    "challenge": false
+  },
+  "02-leak-in-instruction": {
+    "verdict": "reject",
+    "families": ["leak"],
+    "title": "Same rollup, answer printed in TASK.md",
+    "challenge": false
+  },
+  "03-nop-already-green": {
+    "verdict": "reject",
+    "families": ["too_easy"],
+    "title": "Starter already passes every hidden test",
+    "challenge": false
+  },
+  "04-oracle-broken": {
+    "verdict": "reject",
+    "families": ["oracle_fail"],
+    "title": "Official oracle does not make tests green",
+    "challenge": false
+  },
+  "05-unfair-hidden-comment": {
+    "verdict": "reject",
+    "families": ["unfair"],
+    "title": "UTC-Z requirement lives only in a leftover file",
+    "challenge": false
+  },
+  "06-restore-discount": {
+    "verdict": "submit",
+    "families": [],
+    "title": "Restore a deleted discount rule from a backup log",
+    "challenge": false
+  },
+  "07-impl-detail-tests": {
+    "verdict": "reject",
+    "families": ["impl_detail"],
+    "title": "Tests lock a private name instead of behavior",
+    "challenge": false
+  },
+  "08-partial-oracle": {
+    "verdict": "reject",
+    "families": ["incomplete_oracle"],
+    "title": "Oracle fixes tax rate but not rounding",
+    "challenge": false
+  },
+  "09-unsigned-token": {
+    "verdict": "submit",
+    "families": [],
+    "title": "Reject unsigned tokens in a tiny JWT verifier",
+    "challenge": false
+  },
+  "10-answer-filename": {
+    "verdict": "reject",
+    "families": ["leak"],
+    "title": "Expected total leaked through a filename",
+    "challenge": false
+  },
+  "11-timestamp-fold": {
+    "verdict": "submit",
+    "families": [],
+    "title": "Fold ledger events in timestamp order, not file order",
+    "challenge": true
+  },
+  "12-reskin-rollup": {
+    "verdict": "reject",
+    "families": ["similarity"],
+    "title": "Customer totals — a reskin of hours-rollup",
+    "challenge": false
+  }
+}

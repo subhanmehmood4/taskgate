@@ -1,0 +1,17 @@
+[project]
+name = "taskgate"
+version = "1.0.0"
+description = "Pre-submit reviewer for Harbor-style LLM evaluation task packs."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Subhan Mehmood" }]
+
+[project.scripts]
+taskgate = "taskgate.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["taskgate*"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

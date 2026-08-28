@@ -1,0 +1,15 @@
+# Known solving mechanics. Used as reviewer memory so a locally-green
+# reskin can still be rejected for diversity.
+
+- id: filter_then_aggregate
+  pack: 01-hours-rollup
+  min_hits: 2
+  signals:
+    - per project
+    - per customer
+    - hours.csv
+    - orders.csv
+    - group
+    - total hours
+    - total amount
+    - sum

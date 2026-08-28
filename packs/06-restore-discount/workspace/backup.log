@@ -1,0 +1,6 @@
+# recovered from /tmp/app.py.bak
+#
+# def discount(total):
+#     if total > 100:
+#         return int(total * 0.9)
+#     return total
