@@ -49,9 +49,10 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
-------------------------
+sts.test_per_customer_totals)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-eep8qph2/pack/tests/test_task.py", line 15, in test_per_customer_totals
+  File "tests/test_task.py", line 15, in test_per_customer_totals
     self.assertEqual(got["ada"], 8.0)
                      ~~~^^^^^^^
 KeyError: 'ada'

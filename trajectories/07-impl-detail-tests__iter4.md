@@ -48,7 +48,8 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
-skgate-nop-pfiuwbkk/pack/tests/test_task.py", line 13, in test_locked_name_and_private
+cent call last):
+  File "tests/test_task.py", line 13, in test_locked_name_and_private
     self.assertEqual(stats.compute_widget_score.__name__, "compute_widget_score")
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: module 'stats' has no attribute 'compute_widget_score'

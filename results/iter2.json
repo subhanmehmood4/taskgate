@@ -48,7 +48,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n-------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-bbxfhi14/pack/tests/test_task.py\", line 15, in test_per_project_totals\n    self.assertEqual(got[\"alpha\"], 8.0)\n                     ~~~^^^^^^^^^\nKeyError: 'alpha'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+            "output": "passed=0 failed=1\ntest_per_project_totals)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 15, in test_per_project_totals\n    self.assertEqual(got[\"alpha\"], 8.0)\n                     ~~~^^^^^^^^^\nKeyError: 'alpha'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -122,7 +122,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n-------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-z98zdqzm/pack/tests/test_task.py\", line 15, in test_per_project_totals\n    self.assertEqual(got[\"alpha\"], 8.0)\n                     ~~~^^^^^^^^^\nKeyError: 'alpha'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+            "output": "passed=0 failed=1\ntest_per_project_totals)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 15, in test_per_project_totals\n    self.assertEqual(got[\"alpha\"], 8.0)\n                     ~~~^^^^^^^^^\nKeyError: 'alpha'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -270,12 +270,12 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n-------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-cl_0y2nj/pack/tests/test_task.py\", line 13, in test_sum\n    self.assertEqual(combine(4, 5), 9)\nAssertionError: 20 != 9\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "passed=0 failed=1\n==================\nFAIL: test_sum (__main__.CombineTests.test_sum)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 13, in test_sum\n    self.assertEqual(combine(4, 5), 9)\nAssertionError: 20 != 9\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
           },
           {
             "tool": "runner.oracle",
             "input": "apply.py then unittest",
-            "output": "apply_ok=True passed=0 failed=1\n----------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-oracle-w9f548pk/pack/tests/test_task.py\", line 13, in test_sum\n    self.assertEqual(combine(4, 5), 9)\nAssertionError: -1 != 9\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "apply_ok=True passed=0 failed=1\n==================\nFAIL: test_sum (__main__.CombineTests.test_sum)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 13, in test_sum\n    self.assertEqual(combine(4, 5), 9)\nAssertionError: -1 != 9\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
           }
         ],
         "notes": [
@@ -330,7 +330,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n-----------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-x25j7qwy/pack/tests/test_task.py\", line 15, in test_utc_z\n    self.assertEqual(got.tzinfo, timezone.utc)\nAssertionError: None != datetime.timezone.utc\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "passed=0 failed=1\nz (__main__.ParseTests.test_utc_z)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 15, in test_utc_z\n    self.assertEqual(got.tzinfo, timezone.utc)\nAssertionError: None != datetime.timezone.utc\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -388,7 +388,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=1 failed=1\n------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-it00ddf4/pack/tests/test_task.py\", line 13, in test_over_threshold\n    self.assertEqual(total([80, 40]), 108)\nAssertionError: 120 != 108\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "passed=1 failed=1\nld (__main__.DiscountTests.test_over_threshold)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 13, in test_over_threshold\n    self.assertEqual(total([80, 40]), 108)\nAssertionError: 120 != 108\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -448,7 +448,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\nskgate-nop-9yz0i0hy/pack/tests/test_task.py\", line 13, in test_locked_name_and_private\n    self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'stats' has no attribute 'compute_widget_score'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+            "output": "passed=0 failed=1\ncent call last):\n  File \"tests/test_task.py\", line 13, in test_locked_name_and_private\n    self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'stats' has no attribute 'compute_widget_score'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -522,12 +522,12 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=2\n----------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-y8f2eggw/pack/tests/test_task.py\", line 14, in test_tax_rate\n    self.assertEqual(invoice_total([(1000, 1)]), 1100)\nAssertionError: 1050 != 1100\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=2)\n"
+            "output": "passed=0 failed=2\ne (__main__.InvoiceTests.test_tax_rate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 14, in test_tax_rate\n    self.assertEqual(invoice_total([(1000, 1)]), 1100)\nAssertionError: 1050 != 1100\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=2)\n"
           },
           {
             "tool": "runner.oracle",
             "input": "apply.py then unittest",
-            "output": "apply_ok=True passed=1 failed=1\n------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-oracle-fv0ldc69/pack/tests/test_task.py\", line 18, in test_half_up\n    self.assertEqual(invoice_total([(199, 1)]), 219)\nAssertionError: 218 != 219\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "apply_ok=True passed=1 failed=1\nhalf_up (__main__.InvoiceTests.test_half_up)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 18, in test_half_up\n    self.assertEqual(invoice_total([(199, 1)]), 219)\nAssertionError: 218 != 219\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)\n"
           }
         ],
         "notes": [
@@ -580,7 +580,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=2\nrecent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-ak5l6pzs/pack/tests/test_task.py\", line 35, in test_rejects_unsigned\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nFAILED (failures=1, errors=1)\n"
+            "output": "passed=0 failed=2\n-----------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 35, in test_rejects_unsigned\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nFAILED (failures=1, errors=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -654,7 +654,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n---------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-y2ovuwsh/pack/tests/test_task.py\", line 13, in test_all_lines\n    self.assertEqual(total(), 128)\nAssertionError: 80 != 128\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "passed=0 failed=1\n======\nFAIL: test_all_lines (__main__.SumTests.test_all_lines)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 13, in test_all_lines\n    self.assertEqual(total(), 128)\nAssertionError: 80 != 128\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -712,7 +712,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-6t7b1rmf/pack/tests/test_task.py\", line 13, in test_latest_timestamp_wins\n    self.assertEqual(final_x(), 5)\nAssertionError: 9 != 5\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+            "output": "passed=0 failed=1\n_wins (__main__.FoldTests.test_latest_timestamp_wins)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 13, in test_latest_timestamp_wins\n    self.assertEqual(final_x(), 5)\nAssertionError: 9 != 5\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
           },
           {
             "tool": "runner.oracle",
@@ -772,7 +772,7 @@
           {
             "tool": "runner.nop",
             "input": "unittest on starter",
-            "output": "passed=0 failed=1\n------------------------\nTraceback (most recent call last):\n  File \"/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-ags7jy6j/pack/tests/test_task.py\", line 15, in test_per_customer_totals\n    self.assertEqual(got[\"ada\"], 8.0)\n                     ~~~^^^^^^^\nKeyError: 'ada'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+            "output": "passed=0 failed=1\nsts.test_per_customer_totals)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_task.py\", line 15, in test_per_customer_totals\n    self.assertEqual(got[\"ada\"], 8.0)\n                     ~~~^^^^^^^\nKeyError: 'ada'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
           },
           {
             "tool": "runner.oracle",

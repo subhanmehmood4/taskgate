@@ -48,9 +48,11 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
--------------------------------------------------------------
+==================
+FAIL: test_sum (__main__.CombineTests.test_sum)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-cl_0y2nj/pack/tests/test_task.py", line 13, in test_sum
+  File "tests/test_task.py", line 13, in test_sum
     self.assertEqual(combine(4, 5), 9)
 AssertionError: 20 != 9
 
@@ -65,9 +67,11 @@ FAILED (failures=1)
 - input: apply.py then unittest
 ```
 apply_ok=True passed=0 failed=1
-----------------------------------------------------------
+==================
+FAIL: test_sum (__main__.CombineTests.test_sum)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-oracle-w9f548pk/pack/tests/test_task.py", line 13, in test_sum
+  File "tests/test_task.py", line 13, in test_sum
     self.assertEqual(combine(4, 5), 9)
 AssertionError: -1 != 9
 

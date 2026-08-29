@@ -1,0 +1,625 @@
+{
+  "meta": {
+    "prompt": "eval/agent_baseline_prompt.md",
+    "n_trials": 3,
+    "resources": "full pack + shell; no skill file; no mechanics.yml; no gold labels; one pack per review",
+    "model": "three independent general-purpose agents, same prompt, different model families",
+    "models": {
+      "1": "cursor-grok-4.6 (inherit, isolated pack sandbox)",
+      "2": "composer-2.5-fast (isolated pack sandbox)",
+      "3": "gpt-5.6-sol-medium (isolated pack sandbox)"
+    },
+    "recorded_at": "2026-08-29",
+    "cost": "$0 (Cursor agents). Live API re-run needs your key and will drift.",
+    "note": "Each trial is a fresh agent that only saw one pack directory. Majority vote is the scored verdict.",
+    "contamination_note": "Trial 2 ran oracle/apply.py in place, then reread the now-fixed starter and called several fair packs too_easy. Isolated copies were restored before trial 3. Taskgate's runner always copies; a shell agent does not."
+  },
+  "trials": [
+    {
+      "pack_id": "01-hours-rollup",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "submit",
+      "families": [],
+      "summary": "Starter buckets into \"all\" and fails; oracle groups by project and the one hidden test passes; TASK states the required behavior without leaking totals.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "returns hours summed **per project** from a CSV",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: Starter buckets into \"all\" and fails; oracle groups by project and the one hidden test passes; TASK states the required behavior without leaking totals.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: returns hours summed **per project** from a CSV\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "02-leak-in-instruction",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "TASK.md leaks the exact alpha/beta totals the hidden test asserts and invites hard-coding them.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md leaks the exact alpha/beta totals the hidden test asserts and invites hard-coding them.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "03-nop-already-green",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter already implements add(a, b) as a + b, so the hidden tests pass with no changes.",
+      "evidence_path": "workspace/adder.py",
+      "evidence_snippet": "return a + b",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements add(a, b) as a + b, so the hidden tests pass with no changes.\nEVIDENCE_PATH: workspace/adder.py\nEVIDENCE_SNIPPET: return a + b\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "04-oracle-broken",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "oracle_fail"
+      ],
+      "summary": "Official oracle writes subtraction instead of addition, so tests still fail after apply.",
+      "evidence_path": "oracle/apply.py",
+      "evidence_snippet": "return a - b",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 0,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: Official oracle writes subtraction instead of addition, so tests still fail after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: return a - b\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1"
+    },
+    {
+      "pack_id": "05-unfair-hidden-comment",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "unfair"
+      ],
+      "summary": "Tests require UTC tzinfo and a Z/+00:00 suffix that TASK.md never states and contradicts by forbidding invented fields.",
+      "evidence_path": "tests/test_task.py",
+      "evidence_snippet": "self.assertEqual(got.tzinfo, timezone.utc)",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: unfair\nSUMMARY: Tests require UTC tzinfo and a Z/+00:00 suffix that TASK.md never states and contradicts by forbidding invented fields.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(got.tzinfo, timezone.utc)\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "06-restore-discount",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "submit",
+      "families": [],
+      "summary": "Starter fails the over-100 discount case and the official restore makes both hidden tests pass.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "AssertionError: 120 != 108",
+      "nop_passed": 1,
+      "nop_failed": 1,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: Starter fails the over-100 discount case and the official restore makes both hidden tests pass.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: AssertionError: 120 != 108\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=2 failed=0"
+    },
+    {
+      "pack_id": "07-impl-detail-tests",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "impl_detail"
+      ],
+      "summary": "Tests require the exact name compute_widget_score and a private _scratch attribute, which TASK.md never specifies as behavior.",
+      "evidence_path": "tests/test_task.py",
+      "evidence_snippet": "self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests require the exact name compute_widget_score and a private _scratch attribute, which TASK.md never specifies as behavior.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "08-partial-oracle",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "incomplete_oracle"
+      ],
+      "summary": "Official oracle only raises the tax rate to 10% and still truncates 218.9 to 218, so test_half_up fails after apply.",
+      "evidence_path": "oracle/apply.py",
+      "evidence_snippet": "# Fixes tax only. Still truncates 218.9 -> 218.",
+      "nop_passed": 0,
+      "nop_failed": 2,
+      "oracle_passed": 1,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: Official oracle only raises the tax rate to 10% and still truncates 218.9 to 218, so test_half_up fails after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: # Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=1 failed=1"
+    },
+    {
+      "pack_id": "09-unsigned-token",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "submit",
+      "families": [],
+      "summary": "Starter fails both hidden tests, the oracle makes them pass, and TASK.md states the HS256 accept and unsigned-reject behavior the tests check.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "Accept HS256 tokens whose signature matches `secret`. Reject tokens that use `alg=none`",
+      "nop_passed": 0,
+      "nop_failed": 2,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: Starter fails both hidden tests, the oracle makes them pass, and TASK.md states the HS256 accept and unsigned-reject behavior the tests check.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Accept HS256 tokens whose signature matches `secret`. Reject tokens that use `alg=none`\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=2 failed=0"
+    },
+    {
+      "pack_id": "10-answer-filename",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "The workspace filename THE_TOTAL_MUST_BE_128.txt gives away the exact sum the hidden test asserts.",
+      "evidence_path": "workspace/THE_TOTAL_MUST_BE_128.txt",
+      "evidence_snippet": "THE_TOTAL_MUST_BE_128",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: The workspace filename THE_TOTAL_MUST_BE_128.txt gives away the exact sum the hidden test asserts.\nEVIDENCE_PATH: workspace/THE_TOTAL_MUST_BE_128.txt\nEVIDENCE_SNIPPET: THE_TOTAL_MUST_BE_128\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "11-timestamp-fold",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "submit",
+      "families": [],
+      "summary": "Starter folds file order (NOP 9!=5); oracle sorts by timestamp and the one test passes; TASK.md states last-write-wins.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "AssertionError: 9 != 5",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: Starter folds file order (NOP 9!=5); oracle sorts by timestamp and the one test passes; TASK.md states last-write-wins.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: AssertionError: 9 != 5\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "12-reskin-rollup",
+      "trial": 1,
+      "model": "cursor-grok-4.6",
+      "verdict": "submit",
+      "families": [],
+      "summary": "Starter sums into \"all\" so the hidden test fails; the oracle groups by customer and the one test passes, matching TASK.md.",
+      "evidence_path": "workspace/rollup.py",
+      "evidence_snippet": "out[\"all\"] = out.get(\"all\", 0.0) + float(row[\"amount\"])",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: Starter sums into \"all\" so the hidden test fails; the oracle groups by customer and the one test passes, matching TASK.md.\nEVIDENCE_PATH: workspace/rollup.py\nEVIDENCE_SNIPPET: out[\"all\"] = out.get(\"all\", 0.0) + float(row[\"amount\"])\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "01-hours-rollup",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "Starter rollup.py already implements correct per-project CSV summation and passes all tests without modification.",
+      "evidence_path": "workspace/rollup.py",
+      "evidence_snippet": "out[key] = out.get(key, 0.0) + float(row[\"hours\"])",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter rollup.py already implements correct per-project CSV summation and passes all tests without modification.\nEVIDENCE_PATH: workspace/rollup.py\nEVIDENCE_SNIPPET: out[key] = out.get(key, 0.0) + float(row[\"hours\"])\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "02-leak-in-instruction",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "TASK.md explicitly states the expected alpha and beta totals that the tests assert, leaking benchmark answers in the prompt.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md explicitly states the expected alpha and beta totals that the tests assert, leaking benchmark answers in the prompt.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "03-nop-already-green",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "Starter already implements add correctly, so NOP passes all tests with no changes required.",
+      "evidence_path": "workspace/adder.py",
+      "evidence_snippet": "return a + b",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter already implements add correctly, so NOP passes all tests with no changes required.\nEVIDENCE_PATH: workspace/adder.py\nEVIDENCE_SNIPPET: return a + b\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "04-oracle-broken",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "oracle_fail"
+      ],
+      "summary": "The official oracle writes subtraction code, so tests still fail after apply.",
+      "evidence_path": "oracle/apply.py",
+      "evidence_snippet": "# Wrong oracle: subtracts instead of adding.",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 0,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: The official oracle writes subtraction code, so tests still fail after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: # Wrong oracle: subtracts instead of adding.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "05-unfair-hidden-comment",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter parse_stamp already attaches UTC and passes the only hidden test without any changes.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "Ran 1 test in 0.000s OK",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter parse_stamp already attaches UTC and passes the only hidden test without any changes.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test in 0.000s OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "06-restore-discount",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter already implements the discount rule from backup.log, so NOP passes all tests without any changes.",
+      "evidence_path": "workspace/app.py",
+      "evidence_snippet": "if amount > 100: return int(amount * 0.9)",
+      "nop_passed": 2,
+      "nop_failed": 0,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements the discount rule from backup.log, so NOP passes all tests without any changes.\nEVIDENCE_PATH: workspace/app.py\nEVIDENCE_SNIPPET: if amount > 100: return int(amount * 0.9)\nNOP: passed=2 failed=0\nORACLE: apply_ok=true passed=2 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "07-impl-detail-tests",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "impl_detail"
+      ],
+      "summary": "Tests require the locked function name compute_widget_score and private _scratch, neither stated in TASK.md.",
+      "evidence_path": "tests/test_task.py",
+      "evidence_snippet": "self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests require the locked function name compute_widget_score and private _scratch, neither stated in TASK.md.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "08-partial-oracle",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "incomplete_oracle"
+      ],
+      "summary": "Oracle apply leaves half-up rounding broken, so one test still fails after the official fix.",
+      "evidence_path": "oracle/apply.py",
+      "evidence_snippet": "Fixes tax only. Still truncates 218.9 -> 218.",
+      "nop_passed": 1,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: Oracle apply leaves half-up rounding broken, so one test still fails after the official fix.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=1 failed=1",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "09-unsigned-token",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "Starter already implements full JWT verification; NOP passes all tests without modification.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "Ran 2 tests in 0.000s OK",
+      "nop_passed": 2,
+      "nop_failed": 0,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter already implements full JWT verification; NOP passes all tests without modification.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 2 tests in 0.000s OK\nNOP: passed=2 failed=0\nORACLE: apply_ok=true passed=2 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "10-answer-filename",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "Starter summing.py already reads numbers.txt and returns 128, so hidden tests pass without any changes.",
+      "evidence_path": "workspace/summing.py",
+      "evidence_snippet": "return sum(int(line) for line in lines if line.strip())",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter summing.py already reads numbers.txt and returns 128, so hidden tests pass without any changes.\nEVIDENCE_PATH: workspace/summing.py\nEVIDENCE_SNIPPET: return sum(int(line) for line in lines if line.strip())\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "11-timestamp-fold",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter already sorts events by timestamp and returns the latest value, so hidden tests pass with no agent work.",
+      "evidence_path": "workspace/fold.py",
+      "evidence_snippet": "rows.sort(key=lambda row: row[0]); return rows[-1][1]",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already sorts events by timestamp and returns the latest value, so hidden tests pass with no agent work.\nEVIDENCE_PATH: workspace/fold.py\nEVIDENCE_SNIPPET: rows.sort(key=lambda row: row[0]); return rows[-1][1]\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "12-reskin-rollup",
+      "trial": 2,
+      "model": "composer-2.5-fast",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter rollup.py already computes per-customer totals correctly and passes all tests without any changes.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "Ran 1 test in 0.000s OK",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter rollup.py already computes per-customer totals correctly and passes all tests without any changes.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test in 0.000s OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0",
+      "note": "applied oracle in place; reported post-apply workspace as the starter"
+    },
+    {
+      "pack_id": "01-hours-rollup",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "submit",
+      "families": [],
+      "summary": "The clear behavioral task fails NOP and passes after the oracle fix.",
+      "evidence_path": "ORACLE",
+      "evidence_snippet": "Ran 1 test ... OK",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: The clear behavioral task fails NOP and passes after the oracle fix.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 1 test ... OK\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "02-leak-in-instruction",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "TASK.md reveals exact totals directly asserted by the tests.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "Expected alpha total is 8.0. Beta is 2.0.",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md reveals exact totals directly asserted by the tests.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "03-nop-already-green",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "too_easy"
+      ],
+      "summary": "The starter already implements addition and passes all tests unchanged.",
+      "evidence_path": "NOP",
+      "evidence_snippet": "Ran 1 test ... OK",
+      "nop_passed": 1,
+      "nop_failed": 0,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements addition and passes all tests unchanged.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test ... OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "04-oracle-broken",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "oracle_fail"
+      ],
+      "summary": "The official oracle implements subtraction, so the required addition test still fails.",
+      "evidence_path": "ORACLE",
+      "evidence_snippet": "AssertionError: -1 != 9",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 0,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: The official oracle implements subtraction, so the required addition test still fails.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: AssertionError: -1 != 9\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1"
+    },
+    {
+      "pack_id": "05-unfair-hidden-comment",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "unfair"
+      ],
+      "summary": "Tests require an unstated UTC timezone that contradicts the naive no-offset task.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "Do not invent fields that are not in the string.",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: unfair\nSUMMARY: Tests require an unstated UTC timezone that contradicts the naive no-offset task.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Do not invent fields that are not in the string.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "06-restore-discount",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "The task explicitly points to a backup containing the exact implementation tested.",
+      "evidence_path": "workspace/backup.log",
+      "evidence_snippet": "if total > 100: return int(total * 0.9)",
+      "nop_passed": 1,
+      "nop_failed": 1,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: The task explicitly points to a backup containing the exact implementation tested.\nEVIDENCE_PATH: workspace/backup.log\nEVIDENCE_SNIPPET: if total > 100: return int(total * 0.9)\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=2 failed=0"
+    },
+    {
+      "pack_id": "07-impl-detail-tests",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "impl_detail"
+      ],
+      "summary": "Tests enforce an unstated function name and private mutable state.",
+      "evidence_path": "tests/test_task.py",
+      "evidence_snippet": "self.assertTrue(hasattr(stats, \"_scratch\"))",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests enforce an unstated function name and private mutable state.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertTrue(hasattr(stats, \"_scratch\"))\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "08-partial-oracle",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "incomplete_oracle"
+      ],
+      "summary": "The official fix leaves the required round-half-up behavior failing.",
+      "evidence_path": "oracle/apply.py",
+      "evidence_snippet": "Fixes tax only. Still truncates 218.9 -> 218.",
+      "nop_passed": 0,
+      "nop_failed": 2,
+      "oracle_passed": 1,
+      "oracle_failed": 1,
+      "raw": "VERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: The official fix leaves the required round-half-up behavior failing.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=1 failed=1"
+    },
+    {
+      "pack_id": "09-unsigned-token",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "submit",
+      "families": [],
+      "summary": "The starter fails both behavioral tests, while the official fix passes both.",
+      "evidence_path": "ORACLE",
+      "evidence_snippet": "Ran 2 tests / OK",
+      "nop_passed": 0,
+      "nop_failed": 2,
+      "oracle_passed": 2,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails both behavioral tests, while the official fix passes both.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 2 tests / OK\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=2 failed=0"
+    },
+    {
+      "pack_id": "10-answer-filename",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "reject",
+      "families": [
+        "leak"
+      ],
+      "summary": "A workspace filename reveals the exact answer asserted by the test.",
+      "evidence_path": "workspace/THE_TOTAL_MUST_BE_128.txt",
+      "evidence_snippet": "THE_TOTAL_MUST_BE_128",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: reject\nFAMILY: leak\nSUMMARY: A workspace filename reveals the exact answer asserted by the test.\nEVIDENCE_PATH: workspace/THE_TOTAL_MUST_BE_128.txt\nEVIDENCE_SNIPPET: THE_TOTAL_MUST_BE_128\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "11-timestamp-fold",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "submit",
+      "families": [],
+      "summary": "The starter fails timestamp ordering, while the oracle fixes it and passes.",
+      "evidence_path": "TASK.md",
+      "evidence_snippet": "applies records in timestamp order, not file order",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails timestamp ordering, while the oracle fixes it and passes.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: applies records in timestamp order, not file order\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    },
+    {
+      "pack_id": "12-reskin-rollup",
+      "trial": 3,
+      "model": "gpt-5.6-sol-medium",
+      "verdict": "submit",
+      "families": [],
+      "summary": "The starter fails while the oracle correctly implements the stated customer-grouped totals.",
+      "evidence_path": "ORACLE",
+      "evidence_snippet": "Ran 1 test... OK",
+      "nop_passed": 0,
+      "nop_failed": 1,
+      "oracle_passed": 1,
+      "oracle_failed": 0,
+      "raw": "VERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails while the oracle correctly implements the stated customer-grouped totals.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 1 test... OK\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
+    }
+  ]
+}

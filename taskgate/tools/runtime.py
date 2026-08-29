@@ -9,6 +9,21 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+def _scrub_pack_paths(text: str, pack_tmp: Path) -> str:
+    """Drop the random tempfile prefix so trajectories stay stable."""
+    roots = {str(pack_tmp), str(pack_tmp.resolve())}
+    extra: set[str] = set()
+    for root in roots:
+        if root.startswith("/var/"):
+            extra.add("/private" + root)
+        if root.startswith("/private/var/"):
+            extra.add(root[len("/private") :])
+    out = text
+    for root in sorted(roots | extra, key=len, reverse=True):
+        out = out.replace(root + "/", "").replace(root, "<pack>")
+    return out
+
+
 @dataclass
 class RunResult:
     passed: int
@@ -34,7 +49,7 @@ def _run_unittests(tmp: Path) -> RunResult:
         env=env,
         timeout=30,
     )
-    text = (proc.stdout or "") + (proc.stderr or "")
+    text = _scrub_pack_paths((proc.stdout or "") + (proc.stderr or ""), tmp)
     # unittest -q prints "Ran N tests" and "FAILED (failures=X)" or "OK"
     passed, failed = _parse_unittest(text, proc.returncode)
     return RunResult(passed=passed, failed=failed, output=text[-2000:])
@@ -89,7 +104,9 @@ def run_oracle(pack_dir: Path) -> RunResult:
                 timeout=20,
             )
             apply_ok = proc.returncode == 0
-            apply_out = ((proc.stdout or "") + (proc.stderr or ""))[-800:]
+            apply_out = _scrub_pack_paths(
+                ((proc.stdout or "") + (proc.stderr or ""))[-800:], dest
+            )
         tests = _run_unittests(dest)
         tests.apply_ok = apply_ok
         tests.apply_output = apply_out

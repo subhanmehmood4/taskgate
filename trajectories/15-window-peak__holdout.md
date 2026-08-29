@@ -48,7 +48,7 @@ ok
 - input: unittest on starter
 ```
 passed=1 failed=1
-dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-yg4bizsn/pack/tests/test_task.py", line 13, in test_window_max
+dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-0tm80f1d/pack/tests/test_task.py", line 13, in test_window_max
     self.assertEqual(peaks([4, 9, 1, 12, 6], 3), [9, 12, 12])
 AssertionError: Lists differ: [4, 9, 1] != [9, 12, 12]
 
@@ -60,7 +60,7 @@ First differing element 0:
 + [9, 12, 12]
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.001s
+Ran 2 tests in 0.000s
 
 FAILED (failures=1)
 

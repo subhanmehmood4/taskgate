@@ -49,8 +49,9 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=2
-recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-py8y1bk2/pack/tests/test_task.py", line 35, in test_rejects_unsigned
+-----------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_task.py", line 35, in test_rejects_unsigned
     with self.assertRaises(ValueError):
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError: ValueError not raised

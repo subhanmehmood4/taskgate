@@ -50,9 +50,11 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
----------------------------------------------------------
+======
+FAIL: test_all_lines (__main__.SumTests.test_all_lines)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-em2k6p6k/pack/tests/test_task.py", line 13, in test_all_lines
+  File "tests/test_task.py", line 13, in test_all_lines
     self.assertEqual(total(), 128)
 AssertionError: 80 != 128
 

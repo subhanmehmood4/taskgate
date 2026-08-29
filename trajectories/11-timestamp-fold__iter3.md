@@ -49,9 +49,10 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
-------------------------------------------------
+_wins (__main__.FoldTests.test_latest_timestamp_wins)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-r3nmjn1l/pack/tests/test_task.py", line 13, in test_latest_timestamp_wins
+  File "tests/test_task.py", line 13, in test_latest_timestamp_wins
     self.assertEqual(final_x(), 5)
 AssertionError: 9 != 5
 

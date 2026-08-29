@@ -1,6 +1,6 @@
 # The 12 synthetic packs
 
-All original. Gold is in `labels.json`.
+All original. Gold is in `labels.json`. The general-purpose agent arm uses the same gold; see [agent_baseline.md](agent_baseline.md).
 
 | Id | Gold | Planted issue |
 |---|---|---|

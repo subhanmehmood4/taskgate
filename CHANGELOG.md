@@ -11,25 +11,26 @@ Primary metric is **verdict accuracy** on the same 12 packs and the same gold la
 | Iteration 3 | Added fairness: hidden-file requirements and tests that lock `__name__` / private attributes. | 11/12 (92%). New catches: `05` unfair, `07` impl-detail. | Kept. “Hard” and “unfair” are not the same gate. |
 | Iteration 4 | Added reviewer memory of known mechanics. | **12/12 (100%).** Catches `12-reskin-rollup` — NOP red, oracle green, no leak. | Kept. Diversity failure is invisible to a pack that only looks at itself. |
 | Final | Combined the kept gates and added a citation verifier. Findings whose snippet is not in the cited file are dropped. | 12/12 (100%). Same score as iteration 4 on this suite. During development the verifier dropped a similarity finding whose snippet was a paraphrase, not a quote. | Kept. Score did not move on the final labels, but the report became something a person would sign. |
+| Comparison arm (`agent_baseline`) | Same 12 packs, same labels, a general-purpose agent with the full pack and a shell. No skill file, no `mechanics.yml`, no gold. Three independent trials (cursor-grok-4.6, composer-2.5-fast, gpt-5.6-sol-medium). Majority vote is the scored verdict. | Majority **10/12 (83%)**. Per trial: 11/12, 8/12, 10/12. Unanimous on 7/12. Misses: `12-reskin-rollup` (no pool) and `06-restore-discount` (two false rejects). Trial 2 applied the oracle in place and then called fair packs too easy. | **Not folded into Taskgate.** This is the brief's other baseline. The product stays deterministic. Live re-runs need a key and will drift; the committed trials are the evidence. |
 
 ## Per-pack matrix
 
 ✓ = verdict matches gold. Full file: [results/matrix.md](results/matrix.md).
 
-| Pack | Gold | Baseline | Removed | Iter1 | Iter2 | Iter3 | Iter4 / Final |
-|---|---|---|---|---|---|---|---|
-| 01-hours-rollup | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 02-leak-in-instruction | reject / leak | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 03-nop-already-green | reject / too_easy | no | no | no | ✓ | ✓ | ✓ |
-| 04-oracle-broken | reject / oracle_fail | no | no | no | ✓ | ✓ | ✓ |
-| 05-unfair-hidden-comment | reject / unfair | no | no | no | no | ✓ | ✓ |
-| 06-restore-discount | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 07-impl-detail-tests | reject / impl_detail | no | no | no | no | ✓ | ✓ |
-| 08-partial-oracle | reject / incomplete_oracle | no | no | no | ✓ | ✓ | ✓ |
-| 09-unsigned-token | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 10-answer-filename | reject / leak | no | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 11-timestamp-fold (challenge) | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| 12-reskin-rollup | reject / similarity | no | no | no | no | no | ✓ |
+| Pack | Gold | Baseline | Removed | Iter1 | Iter2 | Iter3 | Iter4 / Final | Agent majority |
+|---|---|---|---|---|---|---|---|---|
+| 01-hours-rollup | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 02-leak-in-instruction | reject / leak | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 03-nop-already-green | reject / too_easy | no | no | no | ✓ | ✓ | ✓ | ✓ |
+| 04-oracle-broken | reject / oracle_fail | no | no | no | ✓ | ✓ | ✓ | ✓ |
+| 05-unfair-hidden-comment | reject / unfair | no | no | no | no | ✓ | ✓ | ✓ |
+| 06-restore-discount | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | no |
+| 07-impl-detail-tests | reject / impl_detail | no | no | no | no | ✓ | ✓ | ✓ |
+| 08-partial-oracle | reject / incomplete_oracle | no | no | no | ✓ | ✓ | ✓ | ✓ |
+| 09-unsigned-token | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 10-answer-filename | reject / leak | no | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 11-timestamp-fold (challenge) | submit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 12-reskin-rollup | reject / similarity | no | no | no | no | no | ✓ | no |
 
 ## Hold-out (written after the gates)
 
@@ -48,14 +49,19 @@ Hold-out verdict: **2/3**. The miss is the one we wanted: a hidden requirement t
 - Ten or more cases: **12** on the fixture, plus **3** hold-out.
 - One challenging case: `11-timestamp-fold` (fair, easy to get wrong as a solver; the reviewer must still submit). The challenging review on the fixture is `12-reskin-rollup`. The hold-out challenge is `14-tiebreak-in-notes`.
 - Secondary: family accuracy tracks verdict on this suite because each reject pack has one planted primary family. Pack `02` also flags `similarity` (it is a leaked reskin of pack `01`); the primary family `leak` still matches gold.
-- Human time / cost: see README. Suite runtime is about 7 seconds on a laptop. Cost is $0.
+- Human time / cost: see README. Taskgate suite runtime is about 7 seconds on a laptop. Cost is $0. The agent arm is a recorded 36-review file; replay is keyless.
+- Agent-arm protocol: [eval/agent_baseline.md](eval/agent_baseline.md).
 
 ## Main failure mode we observed
 
 The removed experiment. Adding “more context” (filenames) without a runner produced a better-looking report and an 8-point gain — then a clean submit on a pack whose official oracle fails. Fluency hid the miss.
+
+The second failure mode is a shell agent that runs `oracle/apply.py` on the real workspace. Trial 2 then called several fair packs too easy because the starter it reread was the official fix.
 
 ## Hot take
 
 Doing nothing is a valid agent strategy. If NOP is green, the pack is not a benchmark.
 
 A reject reason that cannot point at a file is worse than a silent pass. Verification is not a second model. It is refusing to emit a claim you cannot cite.
+
+A reviewer with a shell is not a gate until the oracle run is a copy. Otherwise the next look at the starter is a lie.

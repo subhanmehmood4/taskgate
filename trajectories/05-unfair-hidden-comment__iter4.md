@@ -49,9 +49,10 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=1
------------------------------
+z (__main__.ParseTests.test_utc_z)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-e_biw_yv/pack/tests/test_task.py", line 15, in test_utc_z
+  File "tests/test_task.py", line 15, in test_utc_z
     self.assertEqual(got.tzinfo, timezone.utc)
 AssertionError: None != datetime.timezone.utc
 

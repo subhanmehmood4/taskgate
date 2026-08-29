@@ -29,6 +29,8 @@ def render_report(review: Review, pack_dir: Path | None = None) -> str:
     else:
         if review.stage in {"baseline", "removed_context_only"}:
             lines.append("Why:      instruction-only review found no reject signal")
+        elif review.stage == "agent_baseline":
+            lines.append("Why:      general-purpose agent majority vote found no reject signal")
         elif review.nop_passed is not None:
             lines.append("Why:      local gates are green; no leak, unfairness, or reskin flagged")
         else:
@@ -71,6 +73,8 @@ def render_report(review: Review, pack_dir: Path | None = None) -> str:
         lines.append("Human checkpoint")
         if review.stage in {"baseline", "removed_context_only"}:
             lines.append("  Instruction-only review. A person still owns the final submit.")
+        elif review.stage == "agent_baseline":
+            lines.append("  Comparison arm. A person still owns the final submit.")
         else:
             lines.append("  Local gates passed. A person still owns the final submit.")
     return "\n".join(lines) + "\n"

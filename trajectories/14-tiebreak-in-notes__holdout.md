@@ -64,7 +64,7 @@ First differing element 1:
 
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.001s
+Ran 1 test in 0.000s
 
 FAILED (failures=1)
 

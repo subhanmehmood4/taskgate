@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from taskgate.agent.pipeline import review_pack
+from taskgate.agent_baseline import review_from_recorded
 from taskgate.baseline import baseline_review, removed_context_only_review
 from taskgate.models import Gold, Review
 from taskgate.report import render_trajectory
@@ -27,6 +28,8 @@ def run_one(pack_dir: Path, stage: str) -> Review:
         return baseline_review(pack_dir)
     if stage == "removed_context_only":
         return removed_context_only_review(pack_dir)
+    if stage == "agent_baseline":
+        return review_from_recorded(pack_dir)
     return review_pack(pack_dir, stage=stage)
 
 
@@ -114,6 +117,7 @@ def write_tables(results_dir: Path, payloads: dict[str, dict]) -> None:
         "iter3",
         "iter4",
         "final",
+        "agent_baseline",
     ]
     short = {
         "baseline": "baseline",
@@ -123,6 +127,7 @@ def write_tables(results_dir: Path, payloads: dict[str, dict]) -> None:
         "iter3": "iter3",
         "iter4": "iter4",
         "final": "final",
+        "agent_baseline": "agent",
     }
     table = [
         "| Stage | Verdict accuracy | Family accuracy | Correct |",

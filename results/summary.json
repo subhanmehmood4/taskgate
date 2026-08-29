@@ -47,5 +47,12 @@
     "verdict_accuracy": 1.0,
     "family_correct": 12,
     "family_accuracy": 1.0
+  },
+  "agent_baseline": {
+    "n": 12,
+    "verdict_correct": 10,
+    "verdict_accuracy": 0.8333333333333334,
+    "family_correct": 10,
+    "family_accuracy": 0.8333333333333334
   }
 }

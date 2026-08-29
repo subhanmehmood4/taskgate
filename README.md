@@ -24,12 +24,12 @@ The cost is not one rejected zip. It is a day of revision for a failure that a 3
 |---|---|
 | Who has this problem? | Task authors and small eval teams who submit Harbor-style packs. |
 | What bottleneck makes it worth solving? | Instruction-only self-review cannot see NOP, oracle, leaks outside the prompt, or pool similarity. |
-| Does the agent solve it well? | On 12 synthetic packs with planted defects, verdict accuracy moves from **5/12 (42%)** to **12/12 (100%)**. On 3 packs written after the gates froze, it is **2/3**. |
-| Can another person reproduce the result? | Yes. Python 3.11+, no API keys, no extra packages. See [REPRODUCE.md](REPRODUCE.md). |
+| Does the agent solve it well? | Instruction-only review is **5/12 (42%)**. A general-purpose agent with the full pack and a shell, majority of 3 trials, is **10/12 (83%)**. Taskgate is **12/12 (100%)** on the same labels, and **2/3** on hold-out packs written after the gates froze. |
+| Can another person reproduce the result? | Yes. Python 3.11+, no API keys, no extra packages. The agent-arm number is a replay of committed trials. See [REPRODUCE.md](REPRODUCE.md). |
 
 ## What this is not
 
-- Not a wrapper around a frontier model that “vibes” a score.
+- Not a wrapper around a frontier model that “vibes” a score. A general-purpose agent is a **comparison arm**, not the verdict path. See [eval/agent_baseline.md](eval/agent_baseline.md).
 - Not a dump of private AfterQuery / Revelo / Turing tasks. Every pack in `packs/` was written for this repo.
 - Not an auto-uploader. Consequential submit stays behind a human checkpoint.
 
@@ -71,19 +71,27 @@ TASK.md + workspace + tests + oracle
    SUBMIT / REJECT report  ──► human decides
 ```
 
-## Fair baseline
+## Fair comparison
 
-Same 12 packs, same gold labels.
+Same 12 packs, same gold labels, three arms.
 
-**Baseline resources:** `TASK.md` only. A keyword check for “expected … is \<number\>”. No tests, no oracle, no file tree.
+| Arm | Resources | Verdict | Same answer again? | Cost / pack | Time |
+|---|---|---:|---|---:|---|
+| Instruction-only | `TASK.md` + a keyword check | 42% (5/12) | yes | $0 | seconds |
+| General-purpose agent | full pack + shell; no skill, no memory, no gold | **83% (10/12)** majority | 7/12 unanimous (t1 92%, t2 67%, t3 83%) | $0 recorded | minutes |
+| Taskgate | full pack + skill + tools + memory + verifier | **100% (12/12)** | yes — same verdicts every rerun | $0 | ~0.5s / pack |
 
-**Agent resources:** the full pack, the skill, the tools, reviewer memory, the verifier.
+The instruction-only arm is how authors actually self-review. The agent arm is the brief's other baseline — one general-purpose agent with basic tools. Taskgate is not that agent. It is the gate you run when you need the same verdict tomorrow.
 
-That difference is the product. Authors already have the instruction. They do not already run this gate.
+The agent arm's two majority misses are the product: `12-reskin-rollup` looks locally healthy if you have no pool, and `06-restore-discount` was a fair pack that two trials still rejected. Trial 2 also applied `oracle/apply.py` in place and then called the now-green starter too easy. The runner copies; a shell agent does not unless you make it.
+
+Prompt, trials, and replay: [eval/agent_baseline.md](eval/agent_baseline.md).
 
 ## Measured improvement
 
 Primary metric: **verdict accuracy** (submit vs reject vs gold).
+
+The table below is the Taskgate changelog. The agent arm above is a comparison, not a stage we folded into the product.
 
 | Stage | What changed | Verdict | Family |
 |---|---|---:|---:|
@@ -94,13 +102,14 @@ Primary metric: **verdict accuracy** (submit vs reject vs gold).
 | Iteration 3 | unfair + impl-detail | 92% (11/12) | 92% |
 | Iteration 4 | reviewer memory | 100% (12/12) | 100% |
 | Final | + citation verifier | **100% (12/12)** | 100% |
+| Agent comparison | general-purpose agent, 3-trial majority | 83% (10/12) | 83% |
 | Hold-out | 3 packs written after the gates froze | **67% (2/3)** | 67% |
 
 Full changelog: [CHANGELOG.md](CHANGELOG.md). Per-pack matrix: [results/matrix.md](results/matrix.md). Raw JSON: [results/](results/).
 
-**Human time per pack (estimate):** about 90s to read `TASK.md` and guess, vs about 4s for Taskgate plus about 30s to read a reject report. Not a timed user study.
+**Human time per pack (estimate):** about 90s to read `TASK.md` and guess, vs minutes for a general-purpose agent, vs about 4s for Taskgate plus about 30s to read a reject report. Not a timed user study.
 
-**Cost per pack:** $0. No model API.
+**Cost per pack:** $0 for instruction-only and Taskgate. The recorded agent arm was also $0 (Cursor agents). A live API re-run needs your key and will drift.
 
 Gold labels were assigned from the planted defect in each pack, not from a third-party ranking. The 12-pack suite is a fixture: it shows that instruction-only review cannot see NOP, oracle, hidden comments, or pool memory. It is not a claim that Taskgate generalizes to an unseen platform corpus.
 
@@ -134,6 +143,7 @@ python3 -m taskgate baseline packs/03-nop-already-green
 python3 -m taskgate review packs/03-nop-already-green
 python3 -m taskgate eval --stage all
 python3 -m taskgate eval --holdout
+python3 -m taskgate eval --stage agent_baseline
 ```
 
 Requires Python 3.11+. Stdlib only.
@@ -144,7 +154,8 @@ Requires Python 3.11+. Stdlib only.
 |---|---|
 | Solution + changelog | this repo + [CHANGELOG.md](CHANGELOG.md) |
 | Reproduction guide | [REPRODUCE.md](REPRODUCE.md) |
-| Agent trajectories | [trajectories/](trajectories/) |
+| Agent trajectories | [trajectories/](trajectories/) — Taskgate stages plus `*__agent_baseline.md` |
+| Agent comparison arm | [eval/agent_baseline.md](eval/agent_baseline.md) |
 | Hot take | below, and the last section of the changelog |
 
 ## What existed before this hackathon
@@ -156,6 +167,8 @@ Nothing in this repository. The rejection families come from public Harbor-style
 Doing nothing is a valid agent strategy. If NOP is already green, you did not write a benchmark — you wrote a compliment.
 
 The second lesson is about fluency. A reject reason that cannot point at a file is worse than a silent pass. Verification here is not a second model. It is the rule that a claim without a path is dropped.
+
+The third is about agents with a shell. If the reviewer runs `oracle/apply.py` on the real workspace, the next look at the starter is a lie. Copy first, or do not call yourself a gate.
 
 ## License
 

@@ -6,6 +6,14 @@ import sys
 from pathlib import Path
 
 from taskgate.agent.pipeline import review_pack
+from taskgate.agent_baseline import (
+    TRIALS_PATH,
+    live_review,
+    load_trial_file,
+    record_live_suite,
+    review_from_recorded,
+    trial_metrics,
+)
 from taskgate.baseline import baseline_review
 from taskgate.eval_runner import load_gold, run_suite, write_eval_outputs, write_tables
 from taskgate.report import render_report, render_trajectory
@@ -36,13 +44,38 @@ def main(argv: list[str] | None = None) -> int:
     p_eval.add_argument(
         "--stage",
         default="final",
-        choices=["baseline", "removed_context_only", "iter1", "iter2", "iter3", "iter4", "final", "all"],
+        choices=[
+            "baseline",
+            "removed_context_only",
+            "agent_baseline",
+            "iter1",
+            "iter2",
+            "iter3",
+            "iter4",
+            "final",
+            "all",
+        ],
     )
     p_eval.add_argument(
         "--holdout",
         action="store_true",
         help="Score the 3 packs written after the gates (eval/holdout_labels.json)",
     )
+
+    p_agent = sub.add_parser(
+        "agent-baseline",
+        help="Replay (default) or live-run the general-purpose agent arm",
+    )
+    p_agent.add_argument("pack", type=Path, nargs="?")
+    p_agent.add_argument("--json", action="store_true")
+    p_agent.add_argument(
+        "--live",
+        action="store_true",
+        help="Call Anthropic/OpenAI. Needs a key. Overwrites recorded trials for the packs you run.",
+    )
+    p_agent.add_argument("--all", action="store_true", help="Every fixture pack in eval/labels.json")
+    p_agent.add_argument("--trials", type=int, default=3)
+    p_agent.add_argument("--trial", type=int, default=1, help="Trial index when reviewing one pack live")
 
     sub.add_parser("list", help="List synthetic packs")
 
@@ -63,6 +96,9 @@ def main(argv: list[str] | None = None) -> int:
         review = baseline_review(args.pack)
         _emit(review, args.json, save_traj=True)
         return 0
+
+    if args.cmd == "agent-baseline":
+        return _agent_baseline_cmd(args)
 
     if args.cmd == "eval":
         if args.holdout:
@@ -85,7 +121,16 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         stages = (
-            ["baseline", "removed_context_only", "iter1", "iter2", "iter3", "iter4", "final"]
+            [
+                "baseline",
+                "removed_context_only",
+                "iter1",
+                "iter2",
+                "iter3",
+                "iter4",
+                "final",
+                "agent_baseline",
+            ]
             if args.stage == "all"
             else [args.stage]
         )
@@ -103,12 +148,63 @@ def main(argv: list[str] | None = None) -> int:
                 f"({m['verdict_correct']}/{m['n']})  "
                 f"family {m['family_accuracy']:.0%}"
             )
-        (RESULTS / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+            if stage == "agent_baseline":
+                _print_agent_breakdown(gold)
+        summary_path = RESULTS / "summary.json"
+        if args.stage != "all" and summary_path.exists():
+            try:
+                previous = json.loads(summary_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                previous = {}
+            previous.update(summary)
+            summary = previous
+        summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
         if args.stage == "all":
             write_tables(RESULTS, payloads)
         return 0
 
     return 2
+
+
+def _agent_baseline_cmd(args) -> int:
+    gold = load_gold(ROOT / "eval" / "labels.json")
+    if args.live and args.all:
+        record_live_suite(PACKS, list(gold.keys()), args.trials, TRIALS_PATH)
+        print(f"wrote {TRIALS_PATH}")
+        return 0
+    if args.live:
+        if args.pack is None:
+            print("agent-baseline --live needs a pack path, or pass --all", file=sys.stderr)
+            return 2
+        row = live_review(args.pack, trial=args.trial)
+        if args.json:
+            print(json.dumps(row, indent=2))
+        else:
+            fams = ",".join(row.get("families") or []) or "none"
+            print(f"{row['pack_id']}  {row['verdict']}  {fams}")
+            if row.get("summary"):
+                print(row["summary"])
+        return 0
+    if args.pack is None:
+        print("agent-baseline needs a pack path (replay) or --live --all", file=sys.stderr)
+        return 2
+    review = review_from_recorded(args.pack)
+    _emit(review, args.json, save_traj=True)
+    return 0
+
+
+def _print_agent_breakdown(gold) -> None:
+    payload = load_trial_file()
+    extra = trial_metrics(payload, gold)
+    acc = extra["per_trial_accuracy"]
+    bits = "  ".join(f"{name} {value:.0%}" for name, value in acc.items())
+    print(
+        f"{'':22}  unanimous {extra['unanimous']}/{extra['n_packs']}  "
+        f"({extra['unanimous_rate']:.0%})  {bits}"
+    )
+    meta = payload.get("meta") or {}
+    if meta.get("model"):
+        print(f"{'':22}  model {meta['model']}")
 
 
 def _emit(review, as_json: bool, save_traj: bool) -> None:

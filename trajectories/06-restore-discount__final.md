@@ -49,9 +49,10 @@ ok
 - input: unittest on starter
 ```
 passed=1 failed=1
-------------------------------------------
+ld (__main__.DiscountTests.test_over_threshold)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-gjpauql0/pack/tests/test_task.py", line 13, in test_over_threshold
+  File "tests/test_task.py", line 13, in test_over_threshold
     self.assertEqual(total([80, 40]), 108)
 AssertionError: 120 != 108
 

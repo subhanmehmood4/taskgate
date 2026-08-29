@@ -48,9 +48,10 @@ ok
 - input: unittest on starter
 ```
 passed=0 failed=2
-----------------------------------
+e (__main__.InvoiceTests.test_tax_rate)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-nop-y8f2eggw/pack/tests/test_task.py", line 14, in test_tax_rate
+  File "tests/test_task.py", line 14, in test_tax_rate
     self.assertEqual(invoice_total([(1000, 1)]), 1100)
 AssertionError: 1050 != 1100
 
@@ -65,9 +66,10 @@ FAILED (failures=2)
 - input: apply.py then unittest
 ```
 apply_ok=True passed=1 failed=1
-------------------------------------
+half_up (__main__.InvoiceTests.test_half_up)
+----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/var/folders/q7/dycr65yx3_jftxxrt4dncj7c0000gn/T/taskgate-oracle-fv0ldc69/pack/tests/test_task.py", line 18, in test_half_up
+  File "tests/test_task.py", line 18, in test_half_up
     self.assertEqual(invoice_total([(199, 1)]), 219)
 AssertionError: 218 != 219
 
