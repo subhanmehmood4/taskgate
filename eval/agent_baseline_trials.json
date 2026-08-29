@@ -5,12 +5,12 @@
     "resources": "full pack + shell; no skill file; no mechanics.yml; no gold labels; one pack per review",
     "model": "three independent general-purpose agents, same prompt, different model families",
     "models": {
-      "1": "cursor-grok-4.6 (inherit, isolated pack sandbox)",
-      "2": "composer-2.5-fast (isolated pack sandbox)",
-      "3": "gpt-5.6-sol-medium (isolated pack sandbox)"
+      "1": "general-purpose agent A \u2014 full pack + shell, isolated pack only",
+      "2": "general-purpose agent B \u2014 full pack + shell, isolated pack only",
+      "3": "general-purpose agent C \u2014 full pack + shell, isolated pack only"
     },
     "recorded_at": "2026-08-29",
-    "cost": "$0 (Cursor agents). Live API re-run needs your key and will drift.",
+    "cost": "$0 recorded. Live API re-run needs your key and will drift.",
     "note": "Each trial is a fresh agent that only saw one pack directory. Majority vote is the scored verdict.",
     "contamination_note": "Trial 2 ran oracle/apply.py in place, then reread the now-fixed starter and called several fair packs too_easy. Isolated copies were restored before trial 3. Taskgate's runner always copies; a shell agent does not."
   },
@@ -18,7 +18,7 @@
     {
       "pack_id": "01-hours-rollup",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "submit",
       "families": [],
       "summary": "Starter buckets into \"all\" and fails; oracle groups by project and the one hidden test passes; TASK states the required behavior without leaking totals.",
@@ -33,7 +33,7 @@
     {
       "pack_id": "02-leak-in-instruction",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "leak"
@@ -50,7 +50,7 @@
     {
       "pack_id": "03-nop-already-green",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -67,7 +67,7 @@
     {
       "pack_id": "04-oracle-broken",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "oracle_fail"
@@ -84,7 +84,7 @@
     {
       "pack_id": "05-unfair-hidden-comment",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "unfair"
@@ -101,7 +101,7 @@
     {
       "pack_id": "06-restore-discount",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "submit",
       "families": [],
       "summary": "Starter fails the over-100 discount case and the official restore makes both hidden tests pass.",
@@ -116,7 +116,7 @@
     {
       "pack_id": "07-impl-detail-tests",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "impl_detail"
@@ -133,7 +133,7 @@
     {
       "pack_id": "08-partial-oracle",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "incomplete_oracle"
@@ -150,7 +150,7 @@
     {
       "pack_id": "09-unsigned-token",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "submit",
       "families": [],
       "summary": "Starter fails both hidden tests, the oracle makes them pass, and TASK.md states the HS256 accept and unsigned-reject behavior the tests check.",
@@ -165,7 +165,7 @@
     {
       "pack_id": "10-answer-filename",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "reject",
       "families": [
         "leak"
@@ -182,7 +182,7 @@
     {
       "pack_id": "11-timestamp-fold",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "submit",
       "families": [],
       "summary": "Starter folds file order (NOP 9!=5); oracle sorts by timestamp and the one test passes; TASK.md states last-write-wins.",
@@ -197,7 +197,7 @@
     {
       "pack_id": "12-reskin-rollup",
       "trial": 1,
-      "model": "cursor-grok-4.6",
+      "model": "gp-agent-A",
       "verdict": "submit",
       "families": [],
       "summary": "Starter sums into \"all\" so the hidden test fails; the oracle groups by customer and the one test passes, matching TASK.md.",
@@ -212,7 +212,7 @@
     {
       "pack_id": "01-hours-rollup",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -230,7 +230,7 @@
     {
       "pack_id": "02-leak-in-instruction",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "leak"
@@ -248,7 +248,7 @@
     {
       "pack_id": "03-nop-already-green",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -266,7 +266,7 @@
     {
       "pack_id": "04-oracle-broken",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "oracle_fail"
@@ -284,7 +284,7 @@
     {
       "pack_id": "05-unfair-hidden-comment",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -302,7 +302,7 @@
     {
       "pack_id": "06-restore-discount",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -320,7 +320,7 @@
     {
       "pack_id": "07-impl-detail-tests",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "impl_detail"
@@ -338,7 +338,7 @@
     {
       "pack_id": "08-partial-oracle",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "incomplete_oracle"
@@ -356,7 +356,7 @@
     {
       "pack_id": "09-unsigned-token",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -374,7 +374,7 @@
     {
       "pack_id": "10-answer-filename",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -392,7 +392,7 @@
     {
       "pack_id": "11-timestamp-fold",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -410,7 +410,7 @@
     {
       "pack_id": "12-reskin-rollup",
       "trial": 2,
-      "model": "composer-2.5-fast",
+      "model": "gp-agent-B",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -428,7 +428,7 @@
     {
       "pack_id": "01-hours-rollup",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "submit",
       "families": [],
       "summary": "The clear behavioral task fails NOP and passes after the oracle fix.",
@@ -443,7 +443,7 @@
     {
       "pack_id": "02-leak-in-instruction",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "leak"
@@ -460,7 +460,7 @@
     {
       "pack_id": "03-nop-already-green",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "too_easy"
@@ -477,7 +477,7 @@
     {
       "pack_id": "04-oracle-broken",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "oracle_fail"
@@ -494,7 +494,7 @@
     {
       "pack_id": "05-unfair-hidden-comment",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "unfair"
@@ -511,7 +511,7 @@
     {
       "pack_id": "06-restore-discount",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "leak"
@@ -528,7 +528,7 @@
     {
       "pack_id": "07-impl-detail-tests",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "impl_detail"
@@ -545,7 +545,7 @@
     {
       "pack_id": "08-partial-oracle",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "incomplete_oracle"
@@ -562,7 +562,7 @@
     {
       "pack_id": "09-unsigned-token",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "submit",
       "families": [],
       "summary": "The starter fails both behavioral tests, while the official fix passes both.",
@@ -577,7 +577,7 @@
     {
       "pack_id": "10-answer-filename",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "reject",
       "families": [
         "leak"
@@ -594,7 +594,7 @@
     {
       "pack_id": "11-timestamp-fold",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "submit",
       "families": [],
       "summary": "The starter fails timestamp ordering, while the oracle fixes it and passes.",
@@ -609,7 +609,7 @@
     {
       "pack_id": "12-reskin-rollup",
       "trial": 3,
-      "model": "gpt-5.6-sol-medium",
+      "model": "gp-agent-C",
       "verdict": "submit",
       "families": [],
       "summary": "The starter fails while the oracle correctly implements the stated customer-grouped totals.",

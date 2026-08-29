@@ -32,17 +32,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=submit family=none\nStarter buckets into \"all\" and fails; oracle groups by project and the one hidden test passes; TASK states the required behavior without leaking totals.\nevidence=TASK.md: returns hours summed **per project** from a CSV\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: Starter buckets into \"all\" and fails; oracle groups by project and the one hidden test passes; TASK states the required behavior without leaking totals.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: returns hours summed **per project** from a CSV\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nStarter rollup.py already implements correct per-project CSV summation and passes all tests without modification.\nevidence=workspace/rollup.py: out[key] = out.get(key, 0.0) + float(row[\"hours\"])\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter rollup.py already implements correct per-project CSV summation and passes all tests without modification.\nEVIDENCE_PATH: workspace/rollup.py\nEVIDENCE_SNIPPET: out[key] = out.get(key, 0.0) + float(row[\"hours\"])\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=submit family=none\nThe clear behavioral task fails NOP and passes after the oracle fix.\nevidence=ORACLE: Ran 1 test ... OK\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: The clear behavioral task fails NOP and passes after the oracle fix.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 1 test ... OK\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -101,17 +101,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=leak\nTASK.md leaks the exact alpha/beta totals the hidden test asserts and invites hard-coding them.\nevidence=TASK.md: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md leaks the exact alpha/beta totals the hidden test asserts and invites hard-coding them.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=leak\nTASK.md explicitly states the expected alpha and beta totals that the tests assert, leaking benchmark answers in the prompt.\nevidence=TASK.md: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md explicitly states the expected alpha and beta totals that the tests assert, leaking benchmark answers in the prompt.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0. You can hard-code these if you want.\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=leak\nTASK.md reveals exact totals directly asserted by the tests.\nevidence=TASK.md: Expected alpha total is 8.0. Beta is 2.0.\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: TASK.md reveals exact totals directly asserted by the tests.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Expected alpha total is 8.0. Beta is 2.0.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -170,17 +170,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=too_easy\nThe starter already implements add(a, b) as a + b, so the hidden tests pass with no changes.\nevidence=workspace/adder.py: return a + b\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements add(a, b) as a + b, so the hidden tests pass with no changes.\nEVIDENCE_PATH: workspace/adder.py\nEVIDENCE_SNIPPET: return a + b\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nStarter already implements add correctly, so NOP passes all tests with no changes required.\nevidence=workspace/adder.py: return a + b\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter already implements add correctly, so NOP passes all tests with no changes required.\nEVIDENCE_PATH: workspace/adder.py\nEVIDENCE_SNIPPET: return a + b\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=too_easy\nThe starter already implements addition and passes all tests unchanged.\nevidence=NOP: Ran 1 test ... OK\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements addition and passes all tests unchanged.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test ... OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -239,17 +239,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=oracle_fail\nOfficial oracle writes subtraction instead of addition, so tests still fail after apply.\nevidence=oracle/apply.py: return a - b\nNOP passed=0 failed=1\nORACLE passed=0 failed=1\nVERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: Official oracle writes subtraction instead of addition, so tests still fail after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: return a - b\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=oracle_fail\nThe official oracle writes subtraction code, so tests still fail after apply.\nevidence=oracle/apply.py: # Wrong oracle: subtracts instead of adding.\nNOP passed=0 failed=1\nORACLE passed=0 failed=1\nVERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: The official oracle writes subtraction code, so tests still fail after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: # Wrong oracle: subtracts instead of adding.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=oracle_fail\nThe official oracle implements subtraction, so the required addition test still fails.\nevidence=ORACLE: AssertionError: -1 != 9\nNOP passed=0 failed=1\nORACLE passed=0 failed=1\nVERDICT: reject\nFAMILY: oracle_fail\nSUMMARY: The official oracle implements subtraction, so the required addition test still fails.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: AssertionError: -1 != 9\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=0 failed=1"
           },
           {
@@ -308,17 +308,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=unfair\nTests require UTC tzinfo and a Z/+00:00 suffix that TASK.md never states and contradicts by forbidding invented fields.\nevidence=tests/test_task.py: self.assertEqual(got.tzinfo, timezone.utc)\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: unfair\nSUMMARY: Tests require UTC tzinfo and a Z/+00:00 suffix that TASK.md never states and contradicts by forbidding invented fields.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(got.tzinfo, timezone.utc)\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nThe starter parse_stamp already attaches UTC and passes the only hidden test without any changes.\nevidence=NOP: Ran 1 test in 0.000s OK\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter parse_stamp already attaches UTC and passes the only hidden test without any changes.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test in 0.000s OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=unfair\nTests require an unstated UTC timezone that contradicts the naive no-offset task.\nevidence=TASK.md: Do not invent fields that are not in the string.\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: unfair\nSUMMARY: Tests require an unstated UTC timezone that contradicts the naive no-offset task.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Do not invent fields that are not in the string.\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -375,17 +375,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=submit family=none\nStarter fails the over-100 discount case and the official restore makes both hidden tests pass.\nevidence=NOP: AssertionError: 120 != 108\nNOP passed=1 failed=1\nORACLE passed=2 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: Starter fails the over-100 discount case and the official restore makes both hidden tests pass.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: AssertionError: 120 != 108\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nThe starter already implements the discount rule from backup.log, so NOP passes all tests without any changes.\nevidence=workspace/app.py: if amount > 100: return int(amount * 0.9)\nNOP passed=2 failed=0\nORACLE passed=2 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already implements the discount rule from backup.log, so NOP passes all tests without any changes.\nEVIDENCE_PATH: workspace/app.py\nEVIDENCE_SNIPPET: if amount > 100: return int(amount * 0.9)\nNOP: passed=2 failed=0\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=leak\nThe task explicitly points to a backup containing the exact implementation tested.\nevidence=workspace/backup.log: if total > 100: return int(total * 0.9)\nNOP passed=1 failed=1\nORACLE passed=2 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: The task explicitly points to a backup containing the exact implementation tested.\nEVIDENCE_PATH: workspace/backup.log\nEVIDENCE_SNIPPET: if total > 100: return int(total * 0.9)\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
@@ -444,17 +444,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=impl_detail\nTests require the exact name compute_widget_score and a private _scratch attribute, which TASK.md never specifies as behavior.\nevidence=tests/test_task.py: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests require the exact name compute_widget_score and a private _scratch attribute, which TASK.md never specifies as behavior.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=impl_detail\nTests require the locked function name compute_widget_score and private _scratch, neither stated in TASK.md.\nevidence=tests/test_task.py: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests require the locked function name compute_widget_score and private _scratch, neither stated in TASK.md.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertEqual(stats.compute_widget_score.__name__, \"compute_widget_score\")\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=impl_detail\nTests enforce an unstated function name and private mutable state.\nevidence=tests/test_task.py: self.assertTrue(hasattr(stats, \"_scratch\"))\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: impl_detail\nSUMMARY: Tests enforce an unstated function name and private mutable state.\nEVIDENCE_PATH: tests/test_task.py\nEVIDENCE_SNIPPET: self.assertTrue(hasattr(stats, \"_scratch\"))\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -513,17 +513,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=incomplete_oracle\nOfficial oracle only raises the tax rate to 10% and still truncates 218.9 to 218, so test_half_up fails after apply.\nevidence=oracle/apply.py: # Fixes tax only. Still truncates 218.9 -> 218.\nNOP passed=0 failed=2\nORACLE passed=1 failed=1\nVERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: Official oracle only raises the tax rate to 10% and still truncates 218.9 to 218, so test_half_up fails after apply.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: # Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=1 failed=1"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=incomplete_oracle\nOracle apply leaves half-up rounding broken, so one test still fails after the official fix.\nevidence=oracle/apply.py: Fixes tax only. Still truncates 218.9 -> 218.\nNOP passed=1 failed=1\nORACLE passed=1 failed=1\nVERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: Oracle apply leaves half-up rounding broken, so one test still fails after the official fix.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=1 failed=1\nORACLE: apply_ok=true passed=1 failed=1"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=incomplete_oracle\nThe official fix leaves the required round-half-up behavior failing.\nevidence=oracle/apply.py: Fixes tax only. Still truncates 218.9 -> 218.\nNOP passed=0 failed=2\nORACLE passed=1 failed=1\nVERDICT: reject\nFAMILY: incomplete_oracle\nSUMMARY: The official fix leaves the required round-half-up behavior failing.\nEVIDENCE_PATH: oracle/apply.py\nEVIDENCE_SNIPPET: Fixes tax only. Still truncates 218.9 -> 218.\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=1 failed=1"
           },
           {
@@ -566,17 +566,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=submit family=none\nStarter fails both hidden tests, the oracle makes them pass, and TASK.md states the HS256 accept and unsigned-reject behavior the tests check.\nevidence=TASK.md: Accept HS256 tokens whose signature matches `secret`. Reject tokens that use `alg=none`\nNOP passed=0 failed=2\nORACLE passed=2 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: Starter fails both hidden tests, the oracle makes them pass, and TASK.md states the HS256 accept and unsigned-reject behavior the tests check.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: Accept HS256 tokens whose signature matches `secret`. Reject tokens that use `alg=none`\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nStarter already implements full JWT verification; NOP passes all tests without modification.\nevidence=NOP: Ran 2 tests in 0.000s OK\nNOP passed=2 failed=0\nORACLE passed=2 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter already implements full JWT verification; NOP passes all tests without modification.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 2 tests in 0.000s OK\nNOP: passed=2 failed=0\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=submit family=none\nThe starter fails both behavioral tests, while the official fix passes both.\nevidence=ORACLE: Ran 2 tests / OK\nNOP passed=0 failed=2\nORACLE passed=2 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails both behavioral tests, while the official fix passes both.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 2 tests / OK\nNOP: passed=0 failed=2\nORACLE: apply_ok=true passed=2 failed=0"
           },
           {
@@ -635,17 +635,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=reject family=leak\nThe workspace filename THE_TOTAL_MUST_BE_128.txt gives away the exact sum the hidden test asserts.\nevidence=workspace/THE_TOTAL_MUST_BE_128.txt: THE_TOTAL_MUST_BE_128\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: The workspace filename THE_TOTAL_MUST_BE_128.txt gives away the exact sum the hidden test asserts.\nEVIDENCE_PATH: workspace/THE_TOTAL_MUST_BE_128.txt\nEVIDENCE_SNIPPET: THE_TOTAL_MUST_BE_128\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nStarter summing.py already reads numbers.txt and returns 128, so hidden tests pass without any changes.\nevidence=workspace/summing.py: return sum(int(line) for line in lines if line.strip())\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: Starter summing.py already reads numbers.txt and returns 128, so hidden tests pass without any changes.\nEVIDENCE_PATH: workspace/summing.py\nEVIDENCE_SNIPPET: return sum(int(line) for line in lines if line.strip())\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=reject family=leak\nA workspace filename reveals the exact answer asserted by the test.\nevidence=workspace/THE_TOTAL_MUST_BE_128.txt: THE_TOTAL_MUST_BE_128\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: leak\nSUMMARY: A workspace filename reveals the exact answer asserted by the test.\nEVIDENCE_PATH: workspace/THE_TOTAL_MUST_BE_128.txt\nEVIDENCE_SNIPPET: THE_TOTAL_MUST_BE_128\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -688,17 +688,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=submit family=none\nStarter folds file order (NOP 9!=5); oracle sorts by timestamp and the one test passes; TASK.md states last-write-wins.\nevidence=NOP: AssertionError: 9 != 5\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: Starter folds file order (NOP 9!=5); oracle sorts by timestamp and the one test passes; TASK.md states last-write-wins.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: AssertionError: 9 != 5\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nThe starter already sorts events by timestamp and returns the latest value, so hidden tests pass with no agent work.\nevidence=workspace/fold.py: rows.sort(key=lambda row: row[0]); return rows[-1][1]\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter already sorts events by timestamp and returns the latest value, so hidden tests pass with no agent work.\nEVIDENCE_PATH: workspace/fold.py\nEVIDENCE_SNIPPET: rows.sort(key=lambda row: row[0]); return rows[-1][1]\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=submit family=none\nThe starter fails timestamp ordering, while the oracle fixes it and passes.\nevidence=TASK.md: applies records in timestamp order, not file order\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails timestamp ordering, while the oracle fixes it and passes.\nEVIDENCE_PATH: TASK.md\nEVIDENCE_SNIPPET: applies records in timestamp order, not file order\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
@@ -743,17 +743,17 @@
           },
           {
             "tool": "agent_baseline.trial_1",
-            "input": "cursor-grok-4.6",
+            "input": "gp-agent-A",
             "output": "verdict=submit family=none\nStarter sums into \"all\" so the hidden test fails; the oracle groups by customer and the one test passes, matching TASK.md.\nevidence=workspace/rollup.py: out[\"all\"] = out.get(\"all\", 0.0) + float(row[\"amount\"])\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: Starter sums into \"all\" so the hidden test fails; the oracle groups by customer and the one test passes, matching TASK.md.\nEVIDENCE_PATH: workspace/rollup.py\nEVIDENCE_SNIPPET: out[\"all\"] = out.get(\"all\", 0.0) + float(row[\"amount\"])\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_2",
-            "input": "composer-2.5-fast",
+            "input": "gp-agent-B",
             "output": "verdict=reject family=too_easy\nThe starter rollup.py already computes per-customer totals correctly and passes all tests without any changes.\nevidence=NOP: Ran 1 test in 0.000s OK\nNOP passed=1 failed=0\nORACLE passed=1 failed=0\nVERDICT: reject\nFAMILY: too_easy\nSUMMARY: The starter rollup.py already computes per-customer totals correctly and passes all tests without any changes.\nEVIDENCE_PATH: NOP\nEVIDENCE_SNIPPET: Ran 1 test in 0.000s OK\nNOP: passed=1 failed=0\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {
             "tool": "agent_baseline.trial_3",
-            "input": "gpt-5.6-sol-medium",
+            "input": "gp-agent-C",
             "output": "verdict=submit family=none\nThe starter fails while the oracle correctly implements the stated customer-grouped totals.\nevidence=ORACLE: Ran 1 test... OK\nNOP passed=0 failed=1\nORACLE passed=1 failed=0\nVERDICT: submit\nFAMILY: none\nSUMMARY: The starter fails while the oracle correctly implements the stated customer-grouped totals.\nEVIDENCE_PATH: ORACLE\nEVIDENCE_SNIPPET: Ran 1 test... OK\nNOP: passed=0 failed=1\nORACLE: apply_ok=true passed=1 failed=0"
           },
           {

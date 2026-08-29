@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=reject family=too_easy
 The starter already implements add(a, b) as a + b, so the hidden tests pass with no changes.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=too_easy
 Starter already implements add correctly, so NOP passes all tests with no changes required.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=too_easy
 The starter already implements addition and passes all tests unchanged.

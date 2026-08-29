@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=reject family=leak
 TASK.md leaks the exact alpha/beta totals the hidden test asserts and invites hard-coding them.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=leak
 TASK.md explicitly states the expected alpha and beta totals that the tests assert, leaking benchmark answers in the prompt.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=leak
 TASK.md reveals exact totals directly asserted by the tests.

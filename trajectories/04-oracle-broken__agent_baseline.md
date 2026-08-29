@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=reject family=oracle_fail
 Official oracle writes subtraction instead of addition, so tests still fail after apply.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=0 failed=1
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=oracle_fail
 The official oracle writes subtraction code, so tests still fail after apply.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=0 failed=1
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=oracle_fail
 The official oracle implements subtraction, so the required addition test still fails.

@@ -109,7 +109,7 @@ Full changelog: [CHANGELOG.md](CHANGELOG.md). Per-pack matrix: [results/matrix.m
 
 **Human time per pack (estimate):** about 90s to read `TASK.md` and guess, vs minutes for a general-purpose agent, vs about 4s for Taskgate plus about 30s to read a reject report. Not a timed user study.
 
-**Cost per pack:** $0 for instruction-only and Taskgate. The recorded agent arm was also $0 (Cursor agents). A live API re-run needs your key and will drift.
+**Cost per pack:** $0 for instruction-only and Taskgate. The recorded agent arm is also $0 (replay). A live API re-run needs your key and will drift.
 
 Gold labels were assigned from the planted defect in each pack, not from a third-party ranking. The 12-pack suite is a fixture: it shows that instruction-only review cannot see NOP, oracle, hidden comments, or pool memory. It is not a claim that Taskgate generalizes to an unseen platform corpus.
 

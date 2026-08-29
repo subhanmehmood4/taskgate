@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=reject family=incomplete_oracle
 Official oracle only raises the tax rate to 10% and still truncates 218.9 to 218, so test_half_up fails after apply.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=1 failed=1
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=incomplete_oracle
 Oracle apply leaves half-up rounding broken, so one test still fails after the official fix.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=1 failed=1
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=incomplete_oracle
 The official fix leaves the required round-half-up behavior failing.

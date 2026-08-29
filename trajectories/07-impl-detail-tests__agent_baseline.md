@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=reject family=impl_detail
 Tests require the exact name compute_widget_score and a private _scratch attribute, which TASK.md never specifies as behavior.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=impl_detail
 Tests require the locked function name compute_widget_score and private _scratch, neither stated in TASK.md.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=1 failed=0
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=impl_detail
 Tests enforce an unstated function name and private mutable state.

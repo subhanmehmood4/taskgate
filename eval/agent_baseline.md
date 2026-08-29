@@ -16,11 +16,11 @@ deterministic and never calls a model to decide submit/reject.
 
 ## Recorded run (this repo)
 
-| Trial | Model | Verdict accuracy |
+| Trial | Agent | Verdict accuracy |
 |---|---|---:|
-| 1 | cursor-grok-4.6 | 11/12 (92%) |
-| 2 | composer-2.5-fast | 8/12 (67%) |
-| 3 | gpt-5.6-sol-medium | 10/12 (83%) |
+| 1 | general-purpose agent A | 11/12 (92%) |
+| 2 | general-purpose agent B | 8/12 (67%) |
+| 3 | general-purpose agent C | 10/12 (83%) |
 | Majority | | **10/12 (83%)** |
 
 Unanimous on 7/12 packs.

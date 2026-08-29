@@ -7,7 +7,7 @@ full pack + shell; no skill file; no mechanics.yml; no gold labels
 ```
 
 ## Step 2: agent_baseline.trial_1
-- input: cursor-grok-4.6
+- input: gp-agent-A
 ```
 verdict=submit family=none
 Starter fails the over-100 discount case and the official restore makes both hidden tests pass.
@@ -24,7 +24,7 @@ ORACLE: apply_ok=true passed=2 failed=0
 ```
 
 ## Step 3: agent_baseline.trial_2
-- input: composer-2.5-fast
+- input: gp-agent-B
 ```
 verdict=reject family=too_easy
 The starter already implements the discount rule from backup.log, so NOP passes all tests without any changes.
@@ -41,7 +41,7 @@ ORACLE: apply_ok=true passed=2 failed=0
 ```
 
 ## Step 4: agent_baseline.trial_3
-- input: gpt-5.6-sol-medium
+- input: gp-agent-C
 ```
 verdict=reject family=leak
 The task explicitly points to a backup containing the exact implementation tested.
